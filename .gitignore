@@ -49,6 +49,13 @@ Thumbs.db
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
 
+# Helm dependency archives -- packaged from the platform repo's library
+# charts via a local file:// path (see charts/job-bank/Chart.yaml); commit
+# would drift stale relative to the source, so regenerate on demand with
+# `helm dependency update` instead.
+charts/*/charts/
+charts/*/Chart.lock
+
 .claude/worktrees
 .claude/settings.local.json
 .nx/polygraph

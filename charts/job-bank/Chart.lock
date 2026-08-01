@@ -1,9 +1,0 @@
-dependencies:
-- name: mfe-frontend-lib
-  repository: file://../../../mfe-app/charts/mfe-frontend-lib
-  version: 0.1.0
-- name: mfe-backend-lib
-  repository: file://../../../mfe-app/charts/mfe-backend-lib
-  version: 0.1.0
-digest: sha256:f7dca1f03bbdd7fcfc10b71bfefb3312a45d172119e1258918d0b880c50265f0
-generated: "2026-08-01T21:18:59.620649+01:00"
