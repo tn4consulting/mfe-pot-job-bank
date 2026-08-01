@@ -1,0 +1,18 @@
+<section class="job-apply">
+  <h2>Apply for a job</h2>
+  @if (confirmation(); as application) {
+    <p role="status">Application {{ application.id }} submitted — status: {{ application.status }}.</p>
+  } @else if (loadError()) {
+    <p role="alert">Job applications are temporarily unavailable.</p>
+  } @else {
+    <label for="job-apply-select">Choose a posting</label>
+    <select id="job-apply-select" name="jobId" [(ngModel)]="selectedJobId">
+      @for (posting of postings(); track posting.id) {
+        <option [value]="posting.id">{{ posting.title }} — {{ posting.employer }}</option>
+      }
+    </select>
+    <button type="button" [disabled]="submitting() || !selectedJobId" (click)="submit()">
+      Apply now
+    </button>
+  }
+</section>

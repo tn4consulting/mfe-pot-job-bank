@@ -1,0 +1,8 @@
+<section class="job-search">
+  <h1>Job Bank — Job search</h1>
+  @if (loadError()) {
+    <p role="alert">Job postings are temporarily unavailable.</p>
+  } @else {
+    <ul>@for (posting of postings(); track posting.id) {<li><strong>{{ posting.title }}</strong> — {{ posting.employer }}, {{ posting.location }} (posted {{ posting.postedDate }})</li>}</ul>
+  }
+</section>

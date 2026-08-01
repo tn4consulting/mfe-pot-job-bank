@@ -1,0 +1,19 @@
+# Local kind validation overrides -- see docs/plans/20260801-1935-mfe-pot-polyrepo-split-and-k8s-hosting.md's
+# "Local dev with kind" section. Images are built locally and loaded
+# directly into the cluster's node (`kind load docker-image`), so
+# pullPolicy: Never skips any registry round-trip entirely.
+frontend:
+  image:
+    repository: mfe-pot-job-bank
+    tag: kind
+    pullPolicy: Never
+
+backend:
+  image:
+    repository: mfe-pot-job-bank-bff
+    tag: kind
+    pullPolicy: Never
+
+ingress:
+  host: job-bank.mfe-pot.local
+  className: nginx

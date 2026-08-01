@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: job-bank
+spec:
+  ingressClassName: {{ .Values.ingress.className | default "nginx" }}
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          # job-bank-bff's own routes already carry the /api prefix
+          # internally (see apps/job-bank-bff/src/app.ts), so this is a
+          # plain prefix match -- no rewrite-target needed. Listed before
+          # the frontend's / rule so it takes precedence.
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.backend.name }}
+                port:
+                  number: {{ .Values.backend.servicePort | default .Values.backend.containerPort }}
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.frontend.name }}
+                port:
+                  number: {{ .Values.frontend.servicePort | default 80 }}

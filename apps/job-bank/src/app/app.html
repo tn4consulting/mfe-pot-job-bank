@@ -1,0 +1,7 @@
+@if (hasAccess()) {
+  <lib-job-bank-feature-search></lib-job-bank-feature-search>
+  <lib-job-bank-feature-apply></lib-job-bank-feature-apply>
+} @else {
+  <p role="alert">{{ 'auth.signInRequired' | transloco }}</p>
+}
+<router-outlet></router-outlet>

@@ -1,0 +1,32 @@
+frontend:
+  name: job-bank
+  replicaCount: 1
+  image:
+    repository: mfe-pot-job-bank
+    tag: latest
+    pullPolicy: IfNotPresent
+  containerPort: 80
+  servicePort: 80
+  # Same-origin: the BFF is exposed under this same hostname via the /api
+  # Ingress path rule below, not a separate hostname -- see CLAUDE.md's
+  # Hosting section on why (reduces the real hostname count, makes this
+  # call same-origin). Matches apps/job-bank/src/runtime-config.ts's shape.
+  runtimeConfig:
+    jobBankBffBaseUrl: "/api"
+
+backend:
+  name: job-bank-bff
+  replicaCount: 1
+  image:
+    repository: mfe-pot-job-bank-bff
+    tag: latest
+    pullPolicy: IfNotPresent
+  containerPort: 3001
+  servicePort: 3001
+  env:
+    HOST: "0.0.0.0"
+    PORT: "3001"
+
+ingress:
+  host: job-bank.mfe-pot.local
+  className: nginx
