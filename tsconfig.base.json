@@ -20,6 +20,7 @@
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "types": ["node"],
     "paths": {
       "job-bank-feature-search": ["./libs/feature-search/src/index.ts"],
       "job-bank-feature-apply": ["./libs/feature-apply/src/index.ts"],
