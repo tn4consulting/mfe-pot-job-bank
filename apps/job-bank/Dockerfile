@@ -19,15 +19,31 @@
 # written into an image layer or the build cache. CI passes its same-org
 # GITHUB_TOKEN the same way.
 #
-# The pnpm store is cache-mounted (persists across builds, not baked into
-# any layer) and network-concurrency is capped -- this environment's
-# Docker Desktop network path to the public npm registry is flaky enough
-# under pnpm's default concurrency to blow through hundreds of ECONNRESET
-# retries and take over an hour on a cold store; a warm store plus fewer
-# parallel connections avoids re-triggering that every build.
+# The pnpm store is cache-mounted (persists across builds) and
+# network-concurrency is capped. Root cause: this environment's Docker
+# Desktop had too little memory allocated (~2GiB) while several unrelated
+# containers were also running, which manifested as slow tarball
+# downloads and ECONNRESET retries against the npm registry, then an
+# outright OOM-killed install (exit 137) -- not genuine registry
+# flakiness. A warm store plus fewer concurrent connections reduces peak
+# memory during install regardless of how much headroom Docker actually
+# has, so kept even after freeing memory fixed the immediate cause.
 
 FROM node:22-alpine AS build
 WORKDIR /workspace
+# CI=true is Nx's own documented signal for non-interactive environments;
+# harmless to set even though it turned out not to be the actual fix
+# below. `nx`'s postinstall script (dist/bin/post-install.js) has its own
+# internal 30s watchdog timer that force-exits regardless of what it's
+# doing -- so a hang lasting many minutes, past that timer, can't be
+# happening inside the script's own logic at all; something upstream
+# (module loading, or pnpm's own script-running machinery) never gets far
+# enough to hit it. Root cause not fully isolated, but the fix is simple:
+# pnpm only runs a dependency's install/postinstall scripts for packages
+# explicitly listed in `pnpm.onlyBuiltDependencies` below, and nx doesn't
+# need this optional hook to function as a CLI -- removed "nx" from that
+# list entirely rather than chase the hang further.
+ENV CI=true
 RUN corepack enable && corepack prepare pnpm@10.33.2 --activate
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json tsconfig.base.json tsconfig.json .npmrc ./
 COPY apps ./apps

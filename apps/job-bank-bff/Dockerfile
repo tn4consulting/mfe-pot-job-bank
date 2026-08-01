@@ -20,6 +20,10 @@
 # apps/job-bank/Dockerfile's top comment.
 FROM node:22-alpine AS build
 WORKDIR /workspace
+# CI=true kept for consistency, and the pnpm.onlyBuiltDependencies fix
+# (nx removed from that list) applied -- see apps/job-bank/Dockerfile's
+# top comment for the fuller story on why.
+ENV CI=true
 RUN corepack enable && corepack prepare pnpm@10.33.2 --activate
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json tsconfig.base.json tsconfig.json .npmrc ./
 COPY apps ./apps

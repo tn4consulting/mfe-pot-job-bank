@@ -97,8 +97,7 @@
       "unrs-resolver",
       "oxc-parser",
       "oxc-resolver",
-      "@swc/core",
-      "nx"
+      "@swc/core"
     ]
   }
 }
