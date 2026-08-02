@@ -14,7 +14,7 @@ version: 0.1.0
 dependencies:
   - name: mfe-frontend-lib
     version: 0.1.0
-    repository: "file://../../../mfe-app/charts/mfe-frontend-lib"
+    repository: "file://../../../mfe-pot-platform/charts/mfe-frontend-lib"
   - name: mfe-backend-lib
     version: 0.1.0
-    repository: "file://../../../mfe-app/charts/mfe-backend-lib"
+    repository: "file://../../../mfe-pot-platform/charts/mfe-backend-lib"
