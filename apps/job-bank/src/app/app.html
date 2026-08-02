@@ -1,4 +1,12 @@
 @if (hasAccess()) {
+  @if (intro(); as content) {
+    <section>
+      <h1>{{ content.title }}</h1>
+      <p>{{ content.body }}</p>
+    </section>
+  } @else if (introLoadError()) {
+    <p role="alert">Page content is temporarily unavailable.</p>
+  }
   <lib-job-bank-feature-search></lib-job-bank-feature-search>
   <lib-job-bank-feature-apply></lib-job-bank-feature-apply>
 } @else {

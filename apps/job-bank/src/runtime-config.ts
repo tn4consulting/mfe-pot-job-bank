@@ -16,6 +16,7 @@ import { fetchRuntimeConfig } from '@tn4consulting/shared-runtime-config';
  */
 const devDefaults = {
   jobBankBffBaseUrl: 'http://localhost:3001',
+  strapiBaseUrl: 'http://localhost:1337',
 };
 
 export function loadRuntimeConfig(ownOriginUrl: string) {

@@ -1,5 +1,6 @@
 import { provideMfeTransloco } from '@tn4consulting/shared-i18n';
 import { HttpJobBankApiClient, JOB_BANK_API_CLIENT } from 'job-bank-data-access';
+import { CONTENT_CLIENT, createContentClient } from './content-client.token';
 import { loadRuntimeConfig } from '../runtime-config';
 
 // Split across two statements deliberately: Vite/esbuild specially
@@ -19,5 +20,9 @@ export const REMOTE_PROVIDERS = loadRuntimeConfig(assetBaseUrl).then((runtimeCon
   {
     provide: JOB_BANK_API_CLIENT,
     useValue: new HttpJobBankApiClient(runtimeConfig.jobBankBffBaseUrl),
+  },
+  {
+    provide: CONTENT_CLIENT,
+    useValue: createContentClient(runtimeConfig.strapiBaseUrl),
   },
 ]);

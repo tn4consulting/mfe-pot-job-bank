@@ -17,8 +17,13 @@ frontend:
   # that origin. A literal "/api" here double-prefixes every request to
   # /api/api/... and 404s (a real bug, only ever exercised once the
   # runtime-config-over-federation fix started reaching a real BFF).
+  # strapiBaseUrl is browser-to-server (ContentClient fetches Strapi
+  # directly, same as shell's federation-manifest fetch) -- the real
+  # public Ingress hostname from mfe-pot-platform's charts/strapi, not
+  # in-cluster Service DNS.
   runtimeConfig:
     jobBankBffBaseUrl: ""
+    strapiBaseUrl: "http://cms.mfe-pot.local"
 
 backend:
   name: job-bank-bff
