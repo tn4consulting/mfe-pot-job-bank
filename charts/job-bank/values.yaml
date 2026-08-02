@@ -11,8 +11,14 @@ frontend:
   # Ingress path rule below, not a separate hostname -- see CLAUDE.md's
   # Hosting section on why (reduces the real hostname count, makes this
   # call same-origin). Matches apps/job-bank/src/runtime-config.ts's shape.
+  # Empty, not "/api": HttpJobBankApiClient already appends "/api/..."
+  # itself (`${baseUrl}/api/jobs`), so this value is just "this app's own
+  # origin" -- shared-runtime-config's fetchRuntimeConfig resolves "" to
+  # that origin. A literal "/api" here double-prefixes every request to
+  # /api/api/... and 404s (a real bug, only ever exercised once the
+  # runtime-config-over-federation fix started reaching a real BFF).
   runtimeConfig:
-    jobBankBffBaseUrl: "/api"
+    jobBankBffBaseUrl: ""
 
 backend:
   name: job-bank-bff
