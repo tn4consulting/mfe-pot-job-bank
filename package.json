@@ -51,10 +51,6 @@
     "typescript-eslint": "^8.58.0"
   },
   "dependencies": {
-    "@tn4consulting/shared-auth": "^0.1.1",
-    "@tn4consulting/shared-federation-config": "^0.1.1",
-    "@tn4consulting/shared-i18n": "^0.1.2",
-    "@tn4consulting/shared-runtime-config": "^0.1.1",
     "@angular/common": "22.1.0",
     "@angular/compiler": "22.1.0",
     "@angular/core": "22.1.0",
@@ -65,6 +61,10 @@
     "@gcds-core/components": "1.4.0",
     "@gcds-core/components-angular": "1.4.0",
     "@jsverse/transloco": "8.4.0",
+    "@tn4consulting/shared-auth": "^0.1.1",
+    "@tn4consulting/shared-federation-config": "^0.1.1",
+    "@tn4consulting/shared-i18n": "^0.1.2",
+    "@tn4consulting/shared-runtime-config": "^0.1.2",
     "cors": "^2.8.6",
     "es-module-shims": "^2.8.0",
     "express": "^5.1.0",
