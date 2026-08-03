@@ -2,14 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noPropertyAccessFromIndexSignature": true,
-    "emitDecoratorMetadata": false,
-    "module": "preserve"
-  },
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "module": "preserve",
+    "jsx": "react-jsx"
   },
   "files": [],
   "include": [],
