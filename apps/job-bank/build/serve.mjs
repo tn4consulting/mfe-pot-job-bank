@@ -34,7 +34,11 @@ await runEsBuildBuilder('apps/job-bank/federation.config.mjs', {
   watch: true,
   adapterConfig: {
     plugins: [],
-    frameworks: [],
+    // See build.mjs's comment on the equivalent option: this keeps
+    // `needsCommonJsPlugin: true` (fixes the shared react chunk missing
+    // named exports) without `reactFrameworkPlugin()`'s stale React-19
+    // `fileReplacements` paths.
+    frameworks: [{ needsCommonJsPlugin: true }],
   },
 });
 
