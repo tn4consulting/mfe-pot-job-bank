@@ -38,14 +38,35 @@ import { join } from 'node:path';
 const require = createRequire(import.meta.url);
 
 // Deliberately NOT using @softarc/native-federation-esbuild's built-in
-// `reactFrameworkPlugin()` -- its hardcoded dev/prod file-replacement map
-// (e.g. 'react/cjs/react.production.min.js') is stale against React 19,
-// which renamed its production CJS files (dropped the `.min` suffix) and
-// now does its own dev/prod branching internally via `process.env.NODE_ENV`
-// checks in react-dom/client.js's own `require()` calls -- confirmed by
-// reading that file directly. esbuild's own NODE_ENV-based dead-code
-// elimination (driven by the `dev`/`minify` flags below) already resolves
-// the right file without any manual replacement needed.
+// `reactFrameworkPlugin()` wholesale -- its hardcoded dev/prod
+// file-replacement map (e.g. 'react/cjs/react.production.min.js') is stale
+// against React 19, which renamed its production CJS files (dropped the
+// `.min` suffix) and now does its own dev/prod branching internally via
+// `process.env.NODE_ENV` checks in react-dom/client.js's own `require()`
+// calls -- confirmed by reading that file directly. esbuild's own
+// NODE_ENV-based dead-code elimination (driven by the `dev`/`minify` flags
+// below) already resolves the right file without any manual replacement
+// needed.
+//
+// But `frameworks: []` below still opts in to `needsCommonJsPlugin: true`
+// on its own (not just the stale file-replacement map) -- that flag is
+// what makes `createNodeModulesEsbuildContext` load
+// `@chialab/esbuild-plugin-commonjs` for the shared react/react-dom
+// chunks (see node-modules-bundler.js). Without it, esbuild's own default
+// CJS→ESM interop is used instead, which only synthesizes named exports it
+// can statically prove are used *within the same build graph* -- a shared
+// chunk built as its own standalone entry point (no importing consumers in
+// scope to scan) has none to find, so it degrades to a single
+// `export default` wrapping the whole `module.exports` object. Any
+// consumer's `import { useState } from 'react'` against that chunk then
+// fails at runtime with "does not provide an export named 'useState'"
+// (confirmed live: inspected the actual deployed shared chunk, found
+// exactly this shape). `@chialab/esbuild-plugin-commonjs` uses real static
+// analysis of the CJS module's own exports (not the importer's usage), so
+// it emits genuine named exports regardless of build-graph visibility --
+// fixing the actual bug the stale-file-replacement workaround
+// accidentally threw away. Passing a minimal custom framework object here
+// keeps that flag without reintroducing the broken paths.
 
 const dev = process.argv.includes('--dev');
 const outputPath = 'dist/apps/job-bank/browser';
@@ -84,8 +105,11 @@ const result = await runEsBuildBuilder('apps/job-bank/federation.config.mjs', {
     plugins: [],
     // createEsBuildAdapter() defaults `frameworks` to [reactFrameworkPlugin()]
     // whenever this key is omitted entirely, not just when explicitly
-    // requested -- must be an explicit empty array to actually opt out.
-    frameworks: [],
+    // requested. Not an empty array, though -- see the comment above:
+    // this minimal object keeps `needsCommonJsPlugin: true` (the actual
+    // fix for the shared react chunk's missing named exports) without
+    // reintroducing the stale React-19 `fileReplacements` paths.
+    frameworks: [{ needsCommonJsPlugin: true }],
   },
 });
 await result.close();

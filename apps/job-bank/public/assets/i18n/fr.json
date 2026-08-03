@@ -1,5 +1,12 @@
 {
   "auth": {
     "signInRequired": "Vous devez ouvrir une session pour rechercher et postuler à des emplois."
+  },
+  "jobApplications": {
+    "heading": "Mes candidatures",
+    "empty": "Aucune candidature au dossier.",
+    "unavailable": "Les candidatures sont temporairement indisponibles.",
+    "unknownPosition": "Poste inconnu",
+    "unknownEmployer": "Employeur inconnu"
   }
 }

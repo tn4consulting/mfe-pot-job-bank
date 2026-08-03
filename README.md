@@ -1,5 +1,11 @@
 # mfe-pot-job-bank
 
+> **Disclaimer:** This is an independent proof-of-technology project, not
+> affiliated with, endorsed by, or associated with Service Canada,
+> Employment and Social Development Canada (ESDC), Job Bank, or the
+> Government of Canada in any way. Any GC branding/design-system references
+> are used only to ground the proof of technology in a realistic scenario.
+
 The **job search and apply** frontend for the mfe-pot Government of Canada
 MFE proof-of-technology. Federated as a remote into `mfe-pot-shell`, but also
 built to work standalone outside this shell — the reason its business logic

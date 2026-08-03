@@ -24,6 +24,10 @@ import { useLocale } from './use-locale';
 import { useTranslations } from './use-translations';
 import { FeatureSearch } from './components/FeatureSearch';
 import { FeatureApply } from './components/FeatureApply';
+// Registers the SCDS custom elements FeatureSearch renders -- explicit
+// here too (not just via FeatureSearch's own import) since this file is
+// federation.config.mjs's actual `./Component` expose target.
+import '../register-scds';
 
 interface RemoteConfig {
   apiClient: JobBankApiClient;
