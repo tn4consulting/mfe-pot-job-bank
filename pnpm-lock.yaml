@@ -27,8 +27,8 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1
       '@tn4consulting/shared-federation-config':
-        specifier: ^0.2.0
-        version: 0.2.0(@angular-architects/native-federation@22.0.6(@angular/build@22.0.9(@angular/compiler-cli@22.1.0(@angular/compiler@22.1.0)(typescript@6.0.3))(@angular/compiler@22.1.0)(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(@angular/platform-browser@22.1.0(@angular/common@22.1.0(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)))(@types/node@24.13.3)(chokidar@5.0.0)(istanbul-lib-instrument@6.0.3)(jiti@2.7.0)(less@4.5.1)(postcss@8.5.25)(sass-embedded@1.100.0)(terser@5.49.0)(tslib@2.8.1)(typescript@6.0.3)(yaml@2.9.0))(chokidar@5.0.0)(typescript@6.0.3))(@softarc/native-federation@4.3.2(typescript@6.0.3))
+        specifier: ^0.4.0
+        version: 0.4.0(@angular-architects/native-federation@22.0.6(@angular/build@22.0.9(@angular/compiler-cli@22.1.0(@angular/compiler@22.1.0)(typescript@6.0.3))(@angular/compiler@22.1.0)(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(@angular/platform-browser@22.1.0(@angular/common@22.1.0(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)))(@types/node@24.13.3)(chokidar@5.0.0)(istanbul-lib-instrument@6.0.3)(jiti@2.7.0)(less@4.5.1)(postcss@8.5.25)(sass-embedded@1.100.0)(terser@5.49.0)(tslib@2.8.1)(typescript@6.0.3)(yaml@2.9.0))(chokidar@5.0.0)(typescript@6.0.3))(@softarc/native-federation@4.3.2(typescript@6.0.3))
       '@tn4consulting/shared-locale-sync':
         specifier: ^0.1.0
         version: 0.1.0
@@ -2784,16 +2784,11 @@ packages:
   '@tn4consulting/shared-content-client@0.1.1':
     resolution: {integrity: sha512-zsBRzk64/jy79nVTYAme1olbonZ3LsTAeX/zeO1V54R9ctiI0WilfP6HzTr4QGxZHxQZ3mP5NIQF1xG/dDADJQ==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-content-client/0.1.1/e771794d4c182e173d3aa4ef40e7aeffc39df3d7}
 
-  '@tn4consulting/shared-federation-config@0.2.0':
-    resolution: {integrity: sha512-r1XJNzcLxg6zUUaOtlGrvTmEmNl7mJ+/nkoVXY95vXw7wmpTyLffrE8OOBZHKfOb25Qgx7heavXBeDdNF7HeCg==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-federation-config/0.2.0/a9e13f20934dac09c6672a7596c7630125f7507b}
+  '@tn4consulting/shared-federation-config@0.4.0':
+    resolution: {integrity: sha512-GW5NqMGKJnSmVgkgC6ssVxlHD9K6BIUmavtfLnNh+ktbtBdUpkhKiUfKKvNErqvWNUxm5I9/t+BFRaKQs0tkgA==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-federation-config/0.4.0/3f296d40c6693bbaa5511efd579d646158cd5856}
     peerDependencies:
       '@angular-architects/native-federation': '>=22.0.0'
       '@softarc/native-federation': '>=4.0.0'
-    peerDependenciesMeta:
-      '@angular-architects/native-federation':
-        optional: true
-      '@softarc/native-federation':
-        optional: true
 
   '@tn4consulting/shared-locale-sync@0.1.0':
     resolution: {integrity: sha512-NdgyqARoMtppo+fJJ+zLSSL/MovIzjF4jbk0x1AS/RJqbUejNzYi8ohFiPBRHF2uOp/vvw0pVL7nDRtZXKc+MQ==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-locale-sync/0.1.0/ecda0022e21370dda3ec9c0ec92e21584d2033a9}
@@ -7184,7 +7179,6 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
-    optional: true
 
   '@angular-architects/native-federation@22.0.6(@angular/build@22.0.9(@angular/compiler-cli@22.1.0(@angular/compiler@22.1.0)(typescript@6.0.3))(@angular/compiler@22.1.0)(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(@angular/platform-browser@22.1.0(@angular/common@22.1.0(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)))(@types/node@24.13.3)(chokidar@5.0.0)(istanbul-lib-instrument@6.0.3)(jiti@2.7.0)(less@4.5.1)(postcss@8.5.25)(sass-embedded@1.100.0)(terser@5.49.0)(tslib@2.8.1)(typescript@6.0.3)(yaml@2.9.0))(chokidar@5.0.0)(typescript@6.0.3)':
     dependencies:
@@ -7201,7 +7195,6 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
       - typescript
-    optional: true
 
   '@angular-devkit/architect@0.2200.9(chokidar@5.0.0)':
     dependencies:
@@ -7209,7 +7202,6 @@ snapshots:
       rxjs: 7.8.2
     transitivePeerDependencies:
       - chokidar
-    optional: true
 
   '@angular-devkit/core@22.0.9(chokidar@5.0.0)':
     dependencies:
@@ -7221,7 +7213,6 @@ snapshots:
       source-map: 0.7.6
     optionalDependencies:
       chokidar: 5.0.0
-    optional: true
 
   '@angular-devkit/schematics@22.0.9(chokidar@5.0.0)':
     dependencies:
@@ -7232,7 +7223,6 @@ snapshots:
       rxjs: 7.8.2
     transitivePeerDependencies:
       - chokidar
-    optional: true
 
   '@angular/build@22.0.9(@angular/compiler-cli@22.1.0(@angular/compiler@22.1.0)(typescript@6.0.3))(@angular/compiler@22.1.0)(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(@angular/platform-browser@22.1.0(@angular/common@22.1.0(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)))(@types/node@24.13.3)(chokidar@5.0.0)(istanbul-lib-instrument@6.0.3)(jiti@2.7.0)(less@4.5.1)(postcss@8.5.25)(sass-embedded@1.100.0)(terser@5.49.0)(tslib@2.8.1)(typescript@6.0.3)(yaml@2.9.0)':
     dependencies:
@@ -7263,7 +7253,7 @@ snapshots:
       tinyglobby: 0.2.16
       tslib: 2.8.1
       typescript: 6.0.3
-      vite: 7.3.6(@types/node@24.13.3)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.100.0)(sass@1.102.0)(terser@5.49.0)(yaml@2.9.0)
+      vite: 7.3.6(@types/node@24.13.3)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.100.0)(sass@1.99.0)(terser@5.49.0)(yaml@2.9.0)
       watchpack: 2.5.1
     optionalDependencies:
       '@angular/core': 22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)
@@ -7284,7 +7274,6 @@ snapshots:
       - terser
       - tsx
       - yaml
-    optional: true
 
   '@angular/common@22.1.0(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(rxjs@7.8.2)':
     dependencies:
@@ -7305,12 +7294,10 @@ snapshots:
       yargs: 18.1.0
     optionalDependencies:
       typescript: 6.0.3
-    optional: true
 
   '@angular/compiler@22.1.0':
     dependencies:
       tslib: 2.8.1
-    optional: true
 
   '@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)':
     dependencies:
@@ -7351,12 +7338,10 @@ snapshots:
     dependencies:
       '@babel/helper-validator-identifier': 8.0.4
       js-tokens: 10.0.0
-    optional: true
 
   '@babel/compat-data@7.29.7': {}
 
-  '@babel/compat-data@8.0.0':
-    optional: true
+  '@babel/compat-data@8.0.0': {}
 
   '@babel/core@7.29.7':
     dependencies:
@@ -7396,7 +7381,6 @@ snapshots:
       json5: 2.2.3
       obug: 2.1.4
       semver: 7.8.5
-    optional: true
 
   '@babel/generator@7.29.8':
     dependencies:
@@ -7414,7 +7398,6 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       '@types/jsesc': 2.5.1
       jsesc: 3.1.0
-    optional: true
 
   '@babel/helper-annotate-as-pure@7.29.7':
     dependencies:
@@ -7435,7 +7418,6 @@ snapshots:
       browserslist: 4.28.7
       lru-cache: 11.5.2
       semver: 7.8.5
-    optional: true
 
   '@babel/helper-create-class-features-plugin@7.29.7(@babel/core@7.29.7)':
     dependencies:
@@ -7470,8 +7452,7 @@ snapshots:
 
   '@babel/helper-globals@7.29.7': {}
 
-  '@babel/helper-globals@8.0.0':
-    optional: true
+  '@babel/helper-globals@8.0.0': {}
 
   '@babel/helper-member-expression-to-functions@7.29.7':
     dependencies:
@@ -7530,22 +7511,18 @@ snapshots:
   '@babel/helper-split-export-declaration@7.24.7':
     dependencies:
       '@babel/types': 7.29.8
-    optional: true
 
   '@babel/helper-string-parser@7.29.7': {}
 
-  '@babel/helper-string-parser@8.0.0':
-    optional: true
+  '@babel/helper-string-parser@8.0.0': {}
 
   '@babel/helper-validator-identifier@7.29.7': {}
 
-  '@babel/helper-validator-identifier@8.0.4':
-    optional: true
+  '@babel/helper-validator-identifier@8.0.4': {}
 
   '@babel/helper-validator-option@7.29.7': {}
 
-  '@babel/helper-validator-option@8.0.0':
-    optional: true
+  '@babel/helper-validator-option@8.0.0': {}
 
   '@babel/helper-wrap-function@7.29.7':
     dependencies:
@@ -7564,7 +7541,6 @@ snapshots:
     dependencies:
       '@babel/template': 8.0.0
       '@babel/types': 8.0.4
-    optional: true
 
   '@babel/parser@7.29.8':
     dependencies:
@@ -7573,7 +7549,6 @@ snapshots:
   '@babel/parser@8.0.4':
     dependencies:
       '@babel/types': 8.0.4
-    optional: true
 
   '@babel/plugin-bugfix-firefox-class-in-computed-class-key@7.29.7(@babel/core@7.29.7)':
     dependencies:
@@ -8196,7 +8171,6 @@ snapshots:
       '@babel/code-frame': 8.0.0
       '@babel/parser': 8.0.4
       '@babel/types': 8.0.4
-    optional: true
 
   '@babel/traverse@7.29.8':
     dependencies:
@@ -8219,7 +8193,6 @@ snapshots:
       '@babel/template': 8.0.0
       '@babel/types': 8.0.4
       obug: 2.1.4
-    optional: true
 
   '@babel/types@7.29.8':
     dependencies:
@@ -8230,7 +8203,6 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 8.0.0
       '@babel/helper-validator-identifier': 8.0.4
-    optional: true
 
   '@bcoe/v8-coverage@0.2.3': {}
 
@@ -8558,8 +8530,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@inquirer/ansi@2.0.7':
-    optional: true
+  '@inquirer/ansi@2.0.7': {}
 
   '@inquirer/confirm@6.0.12(@types/node@24.13.3)':
     dependencies:
@@ -8567,7 +8538,6 @@ snapshots:
       '@inquirer/type': 4.0.7(@types/node@24.13.3)
     optionalDependencies:
       '@types/node': 24.13.3
-    optional: true
 
   '@inquirer/core@11.2.1(@types/node@24.13.3)':
     dependencies:
@@ -8580,15 +8550,12 @@ snapshots:
       signal-exit: 4.1.0
     optionalDependencies:
       '@types/node': 24.13.3
-    optional: true
 
-  '@inquirer/figures@2.0.7':
-    optional: true
+  '@inquirer/figures@2.0.7': {}
 
   '@inquirer/type@4.0.7(@types/node@24.13.3)':
     optionalDependencies:
       '@types/node': 24.13.3
-    optional: true
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -9930,8 +9897,8 @@ snapshots:
 
   '@tn4consulting/shared-content-client@0.1.1': {}
 
-  '@tn4consulting/shared-federation-config@0.2.0(@angular-architects/native-federation@22.0.6(@angular/build@22.0.9(@angular/compiler-cli@22.1.0(@angular/compiler@22.1.0)(typescript@6.0.3))(@angular/compiler@22.1.0)(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(@angular/platform-browser@22.1.0(@angular/common@22.1.0(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)))(@types/node@24.13.3)(chokidar@5.0.0)(istanbul-lib-instrument@6.0.3)(jiti@2.7.0)(less@4.5.1)(postcss@8.5.25)(sass-embedded@1.100.0)(terser@5.49.0)(tslib@2.8.1)(typescript@6.0.3)(yaml@2.9.0))(chokidar@5.0.0)(typescript@6.0.3))(@softarc/native-federation@4.3.2(typescript@6.0.3))':
-    optionalDependencies:
+  '@tn4consulting/shared-federation-config@0.4.0(@angular-architects/native-federation@22.0.6(@angular/build@22.0.9(@angular/compiler-cli@22.1.0(@angular/compiler@22.1.0)(typescript@6.0.3))(@angular/compiler@22.1.0)(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(@angular/platform-browser@22.1.0(@angular/common@22.1.0(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)))(@types/node@24.13.3)(chokidar@5.0.0)(istanbul-lib-instrument@6.0.3)(jiti@2.7.0)(less@4.5.1)(postcss@8.5.25)(sass-embedded@1.100.0)(terser@5.49.0)(tslib@2.8.1)(typescript@6.0.3)(yaml@2.9.0))(chokidar@5.0.0)(typescript@6.0.3))(@softarc/native-federation@4.3.2(typescript@6.0.3))':
+    dependencies:
       '@angular-architects/native-federation': 22.0.6(@angular/build@22.0.9(@angular/compiler-cli@22.1.0(@angular/compiler@22.1.0)(typescript@6.0.3))(@angular/compiler@22.1.0)(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(@angular/platform-browser@22.1.0(@angular/common@22.1.0(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)))(@types/node@24.13.3)(chokidar@5.0.0)(istanbul-lib-instrument@6.0.3)(jiti@2.7.0)(less@4.5.1)(postcss@8.5.25)(sass-embedded@1.100.0)(terser@5.49.0)(tslib@2.8.1)(typescript@6.0.3)(yaml@2.9.0))(chokidar@5.0.0)(typescript@6.0.3)
       '@softarc/native-federation': 4.3.2(typescript@6.0.3)
 
@@ -10012,8 +9979,7 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.9
 
-  '@types/estree@1.0.8':
-    optional: true
+  '@types/estree@1.0.8': {}
 
   '@types/estree@1.0.9': {}
 
@@ -10030,8 +9996,7 @@ snapshots:
       '@types/express-serve-static-core': 5.1.3
       '@types/serve-static': 2.2.0
 
-  '@types/gensync@1.0.5':
-    optional: true
+  '@types/gensync@1.0.5': {}
 
   '@types/http-errors@2.0.5': {}
 
@@ -10056,8 +10021,7 @@ snapshots:
       '@types/tough-cookie': 4.0.5
       parse5: 7.3.0
 
-  '@types/jsesc@2.5.1':
-    optional: true
+  '@types/jsesc@2.5.1': {}
 
   '@types/json-schema@7.0.15': {}
 
@@ -10277,8 +10241,7 @@ snapshots:
 
   '@vitejs/plugin-basic-ssl@2.3.0(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.100.0)(sass@1.99.0)(terser@5.49.0)(yaml@2.9.0))':
     dependencies:
-      vite: 7.3.6(@types/node@24.13.3)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.100.0)(sass@1.102.0)(terser@5.49.0)(yaml@2.9.0)
-    optional: true
+      vite: 7.3.6(@types/node@24.13.3)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.100.0)(sass@1.99.0)(terser@5.49.0)(yaml@2.9.0)
 
   '@webassemblyjs/ast@1.14.1':
     dependencies:
@@ -10413,8 +10376,7 @@ snapshots:
 
   agent-base@7.1.4: {}
 
-  agent-base@9.0.0:
-    optional: true
+  agent-base@9.0.0: {}
 
   ajv-formats@2.1.1(ajv@8.20.0):
     optionalDependencies:
@@ -10424,7 +10386,6 @@ snapshots:
   ajv-formats@3.0.1(ajv@8.20.0):
     optionalDependencies:
       ajv: 8.20.0
-    optional: true
 
   ajv-keywords@3.5.2(ajv@6.15.0):
     dependencies:
@@ -10450,7 +10411,6 @@ snapshots:
       fast-uri: 3.1.5
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
-    optional: true
 
   ansi-colors@4.1.3: {}
 
@@ -10461,7 +10421,6 @@ snapshots:
   ansi-escapes@7.3.0:
     dependencies:
       environment: 1.1.0
-    optional: true
 
   ansi-regex@5.0.1: {}
 
@@ -10751,7 +10710,6 @@ snapshots:
       postcss: 8.5.25
       postcss-media-query-parser: 0.2.3
       postcss-safe-parser: 7.0.1(postcss@8.5.25)
-    optional: true
 
   big.js@5.2.2:
     optional: true
@@ -10776,8 +10734,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  boolbase@1.0.0:
-    optional: true
+  boolbase@1.0.0: {}
 
   brace-expansion@1.1.18:
     dependencies:
@@ -10870,12 +10827,10 @@ snapshots:
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
-    optional: true
 
   chokidar@5.0.0:
     dependencies:
       readdirp: 5.0.0
-    optional: true
 
   chrome-trace-event@1.0.4:
     optional: true
@@ -10893,21 +10848,17 @@ snapshots:
   cli-cursor@5.0.0:
     dependencies:
       restore-cursor: 5.1.0
-    optional: true
 
   cli-spinners@2.6.1: {}
 
-  cli-spinners@3.4.0:
-    optional: true
+  cli-spinners@3.4.0: {}
 
   cli-truncate@4.0.0:
     dependencies:
       slice-ansi: 5.0.0
       string-width: 7.2.0
-    optional: true
 
-  cli-width@4.1.0:
-    optional: true
+  cli-width@4.1.0: {}
 
   cliui@8.0.1:
     dependencies:
@@ -10920,7 +10871,6 @@ snapshots:
       string-width: 7.2.0
       strip-ansi: 7.2.0
       wrap-ansi: 9.0.2
-    optional: true
 
   clone@1.0.4: {}
 
@@ -10969,8 +10919,7 @@ snapshots:
 
   content-type@2.0.0: {}
 
-  convert-source-map@1.9.0:
-    optional: true
+  convert-source-map@1.9.0: {}
 
   convert-source-map@2.0.0: {}
 
@@ -11090,7 +11039,6 @@ snapshots:
       domhandler: 5.0.3
       domutils: 3.2.2
       nth-check: 2.1.1
-    optional: true
 
   css-tree@2.2.1:
     dependencies:
@@ -11107,8 +11055,7 @@ snapshots:
   css-what@6.2.2:
     optional: true
 
-  css-what@7.0.0:
-    optional: true
+  css-what@7.0.0: {}
 
   css.escape@1.5.1: {}
 
@@ -11274,22 +11221,18 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       entities: 4.5.0
-    optional: true
 
-  domelementtype@2.3.0:
-    optional: true
+  domelementtype@2.3.0: {}
 
   domhandler@5.0.3:
     dependencies:
       domelementtype: 2.3.0
-    optional: true
 
   domutils@3.2.2:
     dependencies:
       dom-serializer: 2.0.0
       domelementtype: 2.3.0
       domhandler: 5.0.3
-    optional: true
 
   dotenv-expand@12.0.3:
     dependencies:
@@ -11313,8 +11256,7 @@ snapshots:
 
   emittery@0.13.1: {}
 
-  emoji-regex@10.6.0:
-    optional: true
+  emoji-regex@10.6.0: {}
 
   emoji-regex@8.0.0: {}
 
@@ -11323,8 +11265,7 @@ snapshots:
   emojis-list@3.0.0:
     optional: true
 
-  empathic@2.0.1:
-    optional: true
+  empathic@2.0.1: {}
 
   encodeurl@2.0.0: {}
 
@@ -11342,22 +11283,18 @@ snapshots:
     dependencies:
       ansi-colors: 4.1.3
 
-  entities@4.5.0:
-    optional: true
+  entities@4.5.0: {}
 
   entities@6.0.1: {}
 
-  entities@7.0.1:
-    optional: true
+  entities@7.0.1: {}
 
-  entities@8.0.0:
-    optional: true
+  entities@8.0.0: {}
 
   env-paths@2.2.1:
     optional: true
 
-  environment@1.1.0:
-    optional: true
+  environment@1.1.0: {}
 
   errno@0.1.8:
     dependencies:
@@ -11698,8 +11635,7 @@ snapshots:
 
   eventemitter3@4.0.7: {}
 
-  eventemitter3@5.0.4:
-    optional: true
+  eventemitter3@5.0.4: {}
 
   events@3.3.0:
     optional: true
@@ -11785,21 +11721,17 @@ snapshots:
 
   fast-safe-stringify@2.1.1: {}
 
-  fast-string-truncated-width@3.0.3:
-    optional: true
+  fast-string-truncated-width@3.0.3: {}
 
   fast-string-width@3.0.2:
     dependencies:
       fast-string-truncated-width: 3.0.3
-    optional: true
 
-  fast-uri@3.1.5:
-    optional: true
+  fast-uri@3.1.5: {}
 
   fast-wrap-ansi@0.2.2:
     dependencies:
       fast-string-width: 3.0.2
-    optional: true
 
   fastq@1.20.1:
     dependencies:
@@ -11958,8 +11890,7 @@ snapshots:
 
   get-caller-file@2.0.5: {}
 
-  get-east-asian-width@1.6.0:
-    optional: true
+  get-east-asian-width@1.6.0: {}
 
   get-intrinsic@1.3.0:
     dependencies:
@@ -11999,8 +11930,7 @@ snapshots:
     dependencies:
       is-glob: 4.0.3
 
-  glob-to-regexp@0.4.1:
-    optional: true
+  glob-to-regexp@0.4.1: {}
 
   glob@10.5.0:
     dependencies:
@@ -12084,7 +12014,6 @@ snapshots:
       domhandler: 5.0.3
       domutils: 3.2.2
       entities: 7.0.1
-    optional: true
 
   http-errors@2.0.1:
     dependencies:
@@ -12148,7 +12077,6 @@ snapshots:
       debug: 4.4.3(supports-color@7.2.0)
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   human-signals@2.1.0: {}
 
@@ -12180,8 +12108,7 @@ snapshots:
   image-size@0.5.5:
     optional: true
 
-  immutable@5.1.9:
-    optional: true
+  immutable@5.1.9: {}
 
   import-fresh@3.3.1:
     dependencies:
@@ -12193,8 +12120,7 @@ snapshots:
       pkg-dir: 4.2.0
       resolve-cwd: 3.0.0
 
-  import-meta-resolve@4.2.0:
-    optional: true
+  import-meta-resolve@4.2.0: {}
 
   imurmurhash@0.1.4: {}
 
@@ -12273,13 +12199,11 @@ snapshots:
 
   is-fullwidth-code-point@3.0.0: {}
 
-  is-fullwidth-code-point@4.0.0:
-    optional: true
+  is-fullwidth-code-point@4.0.0: {}
 
   is-fullwidth-code-point@5.1.0:
     dependencies:
       get-east-asian-width: 1.6.0
-    optional: true
 
   is-generator-fn@2.1.0: {}
 
@@ -12297,8 +12221,7 @@ snapshots:
 
   is-interactive@1.0.0: {}
 
-  is-interactive@2.0.0:
-    optional: true
+  is-interactive@2.0.0: {}
 
   is-map@2.0.3: {}
 
@@ -12347,8 +12270,7 @@ snapshots:
 
   is-unicode-supported@0.1.0: {}
 
-  is-unicode-supported@2.1.0:
-    optional: true
+  is-unicode-supported@2.1.0: {}
 
   is-url@1.2.4: {}
 
@@ -13024,8 +12946,7 @@ snapshots:
   jiti@2.7.0:
     optional: true
 
-  js-tokens@10.0.0:
-    optional: true
+  js-tokens@10.0.0: {}
 
   js-tokens@4.0.0: {}
 
@@ -13073,8 +12994,7 @@ snapshots:
 
   json-schema-traverse@0.4.1: {}
 
-  json-schema-traverse@1.0.0:
-    optional: true
+  json-schema-traverse@1.0.0: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
@@ -13169,7 +13089,6 @@ snapshots:
       log-update: 6.1.0
       rfdc: 1.4.1
       wrap-ansi: 9.0.2
-    optional: true
 
   lmdb@3.5.4:
     dependencies:
@@ -13230,7 +13149,6 @@ snapshots:
     dependencies:
       is-unicode-supported: 2.1.0
       yoctocolors: 2.2.0
-    optional: true
 
   log-update@6.1.0:
     dependencies:
@@ -13239,7 +13157,6 @@ snapshots:
       slice-ansi: 7.1.2
       strip-ansi: 7.2.0
       wrap-ansi: 9.0.2
-    optional: true
 
   loose-envify@1.4.0:
     dependencies:
@@ -13247,8 +13164,7 @@ snapshots:
 
   lru-cache@10.4.3: {}
 
-  lru-cache@11.5.2:
-    optional: true
+  lru-cache@11.5.2: {}
 
   lru-cache@5.1.1:
     dependencies:
@@ -13259,7 +13175,6 @@ snapshots:
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
-    optional: true
 
   make-dir@2.1.0:
     dependencies:
@@ -13323,8 +13238,7 @@ snapshots:
 
   mimic-fn@2.1.0: {}
 
-  mimic-function@5.0.1:
-    optional: true
+  mimic-function@5.0.1: {}
 
   min-indent@1.0.1: {}
 
@@ -13354,8 +13268,7 @@ snapshots:
 
   minipass@7.1.3: {}
 
-  mrmime@2.0.1:
-    optional: true
+  mrmime@2.0.1: {}
 
   ms@2.1.2: {}
 
@@ -13378,11 +13291,9 @@ snapshots:
       msgpackr-extract: 3.0.4
     optional: true
 
-  mute-stream@3.0.0:
-    optional: true
+  mute-stream@3.0.0: {}
 
-  nanoid@3.3.16:
-    optional: true
+  nanoid@3.3.16: {}
 
   napi-postinstall@0.3.4: {}
 
@@ -13432,7 +13343,6 @@ snapshots:
   nth-check@2.1.1:
     dependencies:
       boolbase: 1.0.0
-    optional: true
 
   nwsapi@2.2.24: {}
 
@@ -13603,8 +13513,7 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.1.1
 
-  obug@2.1.4:
-    optional: true
+  obug@2.1.4: {}
 
   on-finished@2.4.1:
     dependencies:
@@ -13621,7 +13530,6 @@ snapshots:
   onetime@7.0.0:
     dependencies:
       mimic-function: 5.0.1
-    optional: true
 
   open@8.4.2:
     dependencies:
@@ -13662,7 +13570,6 @@ snapshots:
       log-symbols: 7.0.1
       stdin-discarder: 0.3.2
       string-width: 8.2.2
-    optional: true
 
   ordered-binary@1.6.1:
     optional: true
@@ -13770,12 +13677,10 @@ snapshots:
       entities: 8.0.0
       parse5: 8.0.1
       parse5-sax-parser: 8.0.0
-    optional: true
 
   parse5-sax-parser@8.0.0:
     dependencies:
       parse5: 8.0.1
-    optional: true
 
   parse5@4.0.0:
     optional: true
@@ -13787,7 +13692,6 @@ snapshots:
   parse5@8.0.1:
     dependencies:
       entities: 8.0.0
-    optional: true
 
   parseurl@1.3.3: {}
 
@@ -13830,7 +13734,6 @@ snapshots:
   piscina@5.2.0:
     optionalDependencies:
       '@napi-rs/nice': 1.1.1
-    optional: true
 
   pkg-dir@4.2.0:
     dependencies:
@@ -13914,8 +13817,7 @@ snapshots:
       - typescript
     optional: true
 
-  postcss-media-query-parser@0.2.3:
-    optional: true
+  postcss-media-query-parser@0.2.3: {}
 
   postcss-merge-longhand@7.0.7(postcss@8.5.25):
     dependencies:
@@ -14066,7 +13968,6 @@ snapshots:
   postcss-safe-parser@7.0.1(postcss@8.5.25):
     dependencies:
       postcss: 8.5.25
-    optional: true
 
   postcss-selector-parser@7.1.4:
     dependencies:
@@ -14095,7 +13996,6 @@ snapshots:
       nanoid: 3.3.16
       picocolors: 1.1.1
       source-map-js: 1.2.1
-    optional: true
 
   prelude-ls@1.2.1: {}
 
@@ -14182,19 +14082,16 @@ snapshots:
       string_decoder: 1.3.0
       util-deprecate: 1.0.2
 
-  readdirp@4.1.2:
-    optional: true
+  readdirp@4.1.2: {}
 
-  readdirp@5.0.0:
-    optional: true
+  readdirp@5.0.0: {}
 
   redent@3.0.0:
     dependencies:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  reflect-metadata@0.2.2:
-    optional: true
+  reflect-metadata@0.2.2: {}
 
   reflect.getprototypeof@1.0.10:
     dependencies:
@@ -14239,8 +14136,7 @@ snapshots:
 
   require-directory@2.1.1: {}
 
-  require-from-string@2.0.2:
-    optional: true
+  require-from-string@2.0.2: {}
 
   requires-port@1.0.0: {}
 
@@ -14279,12 +14175,10 @@ snapshots:
     dependencies:
       onetime: 7.0.0
       signal-exit: 4.1.0
-    optional: true
 
   reusify@1.1.0: {}
 
-  rfdc@1.4.1:
-    optional: true
+  rfdc@1.4.1: {}
 
   rollup@4.60.2:
     dependencies:
@@ -14316,7 +14210,6 @@ snapshots:
       '@rollup/rollup-win32-x64-gnu': 4.60.2
       '@rollup/rollup-win32-x64-msvc': 4.60.2
       fsevents: 2.3.3
-    optional: true
 
   router@2.2.0:
     dependencies:
@@ -14485,7 +14378,6 @@ snapshots:
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.6.0
-    optional: true
 
   sax@1.6.1:
     optional: true
@@ -14518,8 +14410,7 @@ snapshots:
 
   semver@6.3.1: {}
 
-  semver@7.7.4:
-    optional: true
+  semver@7.7.4: {}
 
   semver@7.8.4: {}
 
@@ -14623,18 +14514,15 @@ snapshots:
     dependencies:
       ansi-styles: 6.2.3
       is-fullwidth-code-point: 4.0.0
-    optional: true
 
   slice-ansi@7.1.2:
     dependencies:
       ansi-styles: 6.2.3
       is-fullwidth-code-point: 5.1.0
-    optional: true
 
   smol-toml@1.6.1: {}
 
-  source-map-js@1.2.1:
-    optional: true
+  source-map-js@1.2.1: {}
 
   source-map-loader@5.0.0(webpack@5.105.2(@swc/core@1.15.8(@swc/helpers@0.5.18))(esbuild@0.27.7)(postcss@8.5.25)):
     dependencies:
@@ -14660,8 +14548,7 @@ snapshots:
 
   source-map@0.6.1: {}
 
-  source-map@0.7.6:
-    optional: true
+  source-map@0.7.6: {}
 
   sprintf-js@1.0.3: {}
 
@@ -14671,8 +14558,7 @@ snapshots:
 
   statuses@2.0.2: {}
 
-  stdin-discarder@0.3.2:
-    optional: true
+  stdin-discarder@0.3.2: {}
 
   stop-iteration-iterator@1.1.0:
     dependencies:
@@ -14701,13 +14587,11 @@ snapshots:
       emoji-regex: 10.6.0
       get-east-asian-width: 1.6.0
       strip-ansi: 7.2.0
-    optional: true
 
   string-width@8.2.2:
     dependencies:
       get-east-asian-width: 1.6.0
       strip-ansi: 7.2.0
-    optional: true
 
   string.prototype.includes@2.0.1:
     dependencies:
@@ -14902,7 +14786,6 @@ snapshots:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.5)
       picomatch: 4.0.5
-    optional: true
 
   tinyglobby@0.2.17:
     dependencies:
@@ -15156,7 +15039,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.100.0)(sass@1.102.0)(terser@5.49.0)(yaml@2.9.0):
+  vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.100.0)(sass@1.99.0)(terser@5.49.0)(yaml@2.9.0):
     dependencies:
       esbuild: 0.27.7
       fdir: 6.5.0(picomatch@4.0.5)
@@ -15169,11 +15052,10 @@ snapshots:
       fsevents: 2.3.3
       jiti: 2.7.0
       less: 4.5.1
-      sass: 1.102.0
+      sass: 1.99.0
       sass-embedded: 1.100.0
       terser: 5.49.0
       yaml: 2.9.0
-    optional: true
 
   w3c-xmlserializer@5.0.0:
     dependencies:
@@ -15187,7 +15069,6 @@ snapshots:
     dependencies:
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
-    optional: true
 
   watchpack@2.5.2:
     dependencies:
@@ -15342,7 +15223,6 @@ snapshots:
       ansi-styles: 6.2.3
       string-width: 7.2.0
       strip-ansi: 7.2.0
-    optional: true
 
   wrappy@1.0.2: {}
 
@@ -15367,8 +15247,7 @@ snapshots:
 
   yargs-parser@21.1.1: {}
 
-  yargs-parser@22.0.0:
-    optional: true
+  yargs-parser@22.0.0: {}
 
   yargs@17.7.2:
     dependencies:
@@ -15398,7 +15277,6 @@ snapshots:
       string-width: 8.2.2
       y18n: 5.0.8
       yargs-parser: 22.0.0
-    optional: true
 
   yn@3.1.1: {}
 
@@ -15407,5 +15285,4 @@ snapshots:
   yocto-queue@1.2.2:
     optional: true
 
-  yoctocolors@2.2.0:
-    optional: true
+  yoctocolors@2.2.0: {}
