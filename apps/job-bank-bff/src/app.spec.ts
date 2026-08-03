@@ -49,6 +49,23 @@ describe('job-bank-bff', () => {
     expect(res.body.length).toBeGreaterThanOrEqual(2);
   });
 
+  it('denormalizes job title and employer onto each application', async () => {
+    await request(app)
+      .post('/api/applications')
+      .send({ jobId: 'job-001', applicantSub: 'mock-citizen-005' });
+
+    const res = await request(app)
+      .get('/api/applications')
+      .query({ applicantSub: 'mock-citizen-005' });
+
+    expect(res.status).toBe(200);
+    expect(res.body[0]).toMatchObject({
+      jobId: 'job-001',
+      jobTitle: 'Warehouse Associate',
+      employer: 'Northgate Logistics',
+    });
+  });
+
   it('requires the applicantSub query parameter', async () => {
     const res = await request(app).get('/api/applications');
     expect(res.status).toBe(400);
