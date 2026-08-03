@@ -7,7 +7,7 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
-CLUSTER_NAME=kind
+CLUSTER_NAME="${CLUSTER_NAME:-kind}"
 PLATFORM_DIR=../mfe-pot-platform
 HOSTNAME=job-bank.mfe-pot.local
 

@@ -25,6 +25,27 @@ const EN_TRANSLATIONS = {
   },
 };
 
+// scds-multi-column-list renders into its own shadow root, which
+// @testing-library/dom's default queries don't pierce -- assert on
+// shadowRoot.textContent directly instead. The custom element is created
+// and populated imperatively inside a useEffect (see
+// JobApplicationsList.tsx), so a render-flush tick is needed after
+// `render()` too, same as this component's own Stencil-side tests (see
+// shared-ui-scds-core).
+function waitForRender(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 20));
+}
+
+async function findList(container: HTMLElement): Promise<ShadowRoot> {
+  await waitForRender();
+  await waitForRender();
+  const list = container.querySelector('scds-multi-column-list');
+  if (!list?.shadowRoot) {
+    throw new Error('scds-multi-column-list did not render');
+  }
+  return list.shadowRoot;
+}
+
 describe('JobApplicationsList', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -44,9 +65,10 @@ describe('JobApplicationsList', () => {
       getApplications: jest.fn().mockResolvedValue([]),
     }));
 
-    render(<JobApplicationsList />);
+    const { container } = render(<JobApplicationsList />);
+    const shadowRoot = await findList(container);
 
-    expect(await screen.findByText('No job applications on file.')).toBeInTheDocument();
+    expect(shadowRoot.textContent).toContain('No job applications on file.');
   });
 
   it('renders applications fetched from job-bank-bff', async () => {
@@ -64,10 +86,11 @@ describe('JobApplicationsList', () => {
       ]),
     }));
 
-    render(<JobApplicationsList />);
+    const { container } = render(<JobApplicationsList />);
+    const shadowRoot = await findList(container);
 
-    expect(await screen.findByText('Warehouse Associate', { exact: false })).toBeInTheDocument();
-    expect(screen.getByText('submitted', { exact: false })).toBeInTheDocument();
+    expect(shadowRoot.textContent).toContain('Warehouse Associate');
+    expect(shadowRoot.textContent).toContain('submitted');
   });
 
   it('shows an error state when the upstream call fails', async () => {

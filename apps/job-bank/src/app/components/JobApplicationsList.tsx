@@ -1,22 +1,20 @@
 // See App.tsx's own comment on this same import -- required for the
 // federated build's classic JSX transform.
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { getStoredSession } from '@tn4consulting/shared-auth/core';
 import type { JobApplication } from 'job-bank-data-access';
 import { HttpJobBankApiClient } from 'job-bank-data-access';
+import type { ScdsListColumn } from '@tn4consulting/shared-ui-scds-core';
 import { loadRuntimeConfig } from '../../runtime-config';
 import { assetBaseUrl } from '../asset-base-url';
 import { useLocale } from '../use-locale';
 import { useTranslations } from '../use-translations';
+import '../../register-scds';
 
-const STATUS_PILL_STYLE: React.CSSProperties = {
-  display: 'inline-block',
-  padding: '0.15rem 0.6rem',
-  borderRadius: '1rem',
-  fontSize: '0.85rem',
-  backgroundColor: '#d8e8fb',
-  color: '#26374a',
+type ScdsMultiColumnListElement = HTMLElement & {
+  items: unknown[];
+  columns: ScdsListColumn[];
 };
 
 /**
@@ -27,17 +25,13 @@ const STATUS_PILL_STYLE: React.CSSProperties = {
  * setup entirely, with no props -- same reasoning as `App`, see its own
  * comment: a React widget mounted via `REACT_MOUNTER` has no
  * host-provided `REMOTE_PROVIDERS` equivalent to receive props from.
- *
- * Styled with inline styles rather than a CSS class: apps/job-bank/src/
- * styles.css is an unwired placeholder (not imported by index.html or any
- * component today), and wiring it up properly is a separate, pre-existing
- * gap this widget doesn't take on.
  */
 export function JobApplicationsList() {
   const [applications, setApplications] = useState<JobApplication[] | null>(null);
   const [loadError, setLoadError] = useState(false);
   const locale = useLocale();
   const { t } = useTranslations(assetBaseUrl, locale);
+  const listElRef = useRef<ScdsMultiColumnListElement | null>(null);
 
   useEffect(() => {
     const session = getStoredSession();
@@ -65,23 +59,60 @@ export function JobApplicationsList() {
     };
   }, []);
 
+  // A callback ref, not useRef+useEffect(() => {}, []): the mount point
+  // below only renders once `applications` is non-null (preserving the
+  // original "render nothing while still loading" behaviour), so a plain
+  // mount-once effect would find the container missing on its one run and
+  // never retry. A callback ref fires exactly when React actually attaches
+  // the div, whichever render that turns out to be.
+  const setContainerRef = useCallback((container: HTMLDivElement | null) => {
+    if (container) {
+      const list = document.createElement('scds-multi-column-list') as ScdsMultiColumnListElement;
+      listElRef.current = list;
+      container.appendChild(list);
+    } else {
+      listElRef.current = null;
+    }
+  }, []);
+
+  // scds-multi-column-list's `items`/`columns` are DOM properties (they're
+  // non-primitive), not HTML attributes -- set imperatively, not via JSX.
+  // Re-set on every `t`/locale change too, not just when `applications`
+  // loads: the column `cell` closures capture `t` for the null-fallback
+  // text, which would otherwise go stale after a language switch.
+  useEffect(() => {
+    const list = listElRef.current;
+    if (!list) {
+      return;
+    }
+    list.setAttribute('empty-label', t('jobApplications.empty'));
+    list.setAttribute('list-label', t('jobApplications.heading'));
+    list.columns = [
+      {
+        id: 'title',
+        header: 'Position',
+        cell: (item) => (item as JobApplication).jobTitle ?? t('jobApplications.unknownPosition'),
+        priority: 'primary',
+      },
+      {
+        id: 'employer',
+        header: 'Employer',
+        cell: (item) => (item as JobApplication).employer ?? t('jobApplications.unknownEmployer'),
+      },
+      { id: 'status', header: 'Status', cell: (item) => (item as JobApplication).status, priority: 'secondary' },
+    ];
+    if (applications !== null) {
+      list.items = applications;
+    }
+  }, [applications, t]);
+
   return (
     <section className="job-applications-list">
       <h2>{t('jobApplications.heading')}</h2>
       {loadError ? (
         <p role="alert">{t('jobApplications.unavailable')}</p>
-      ) : applications === null ? null : applications.length === 0 ? (
-        <p>{t('jobApplications.empty')}</p>
-      ) : (
-        <ul>
-          {applications.map((application) => (
-            <li key={application.id}>
-              <strong>{application.jobTitle ?? t('jobApplications.unknownPosition')}</strong> —{' '}
-              {application.employer ?? t('jobApplications.unknownEmployer')}{' '}
-              <span style={STATUS_PILL_STYLE}>{application.status}</span>
-            </li>
-          ))}
-        </ul>
+      ) : applications === null ? null : (
+        <div ref={setContainerRef} />
       )}
     </section>
   );

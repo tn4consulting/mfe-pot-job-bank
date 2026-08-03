@@ -61,6 +61,7 @@
     "@tn4consulting/shared-federation-config": "^0.2.0",
     "@tn4consulting/shared-locale-sync": "^0.1.0",
     "@tn4consulting/shared-runtime-config": "^0.1.4",
+    "@tn4consulting/shared-ui-scds-core": "^0.1.0",
     "cors": "^2.8.6",
     "es-module-shims": "^2.8.0",
     "express": "^5.1.0",
