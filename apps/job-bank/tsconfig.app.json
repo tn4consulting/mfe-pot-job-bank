@@ -2,28 +2,20 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": []
+    "types": ["node"],
+    "jsx": "react-jsx"
   },
-  "include": [
-    "src/**/*.ts",
-    "../../libs/feature-search/src/index.ts",
-    "../../libs/feature-apply/src/index.ts",
-    "../../libs/data-access/src/index.ts"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "../../libs/data-access/src/index.ts"],
   "exclude": [
     "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
     "src/**/*.test.ts",
+    "src/**/*.test.tsx",
     "jest.config.ts",
     "jest.config.cts",
     "src/test-setup.ts"
   ],
   "references": [
-    {
-      "path": "../../libs/feature-apply"
-    },
-    {
-      "path": "../../libs/feature-search"
-    },
     {
       "path": "../../libs/data-access"
     }
