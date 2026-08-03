@@ -12,4 +12,6 @@ export interface JobApplication {
   applicantSub: string;
   status: 'submitted';
   submittedAt: string;
+  jobTitle: string | null;
+  employer: string | null;
 }

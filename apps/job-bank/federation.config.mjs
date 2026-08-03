@@ -17,6 +17,7 @@ export default withNativeFederation({
 
   exposes: {
     './Component': './apps/job-bank/src/app/App.tsx',
+    './JobApplicationsWidget': './apps/job-bank/src/app/components/JobApplicationsList.tsx',
   },
 
   shared: { ...sharedReactFederationDependencies, ...sharedGcdsFederationDependency },

@@ -41,6 +41,8 @@ describe('FeatureApply', () => {
         applicantSub: 'mock-citizen-001',
         status: 'submitted',
         submittedAt: '2026-08-01T00:00:00.000Z',
+        jobTitle: 'Warehouse Associate',
+        employer: 'Northgate Logistics',
       }),
     });
     render(<FeatureApply apiClient={apiClient} />);
