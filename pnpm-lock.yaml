@@ -36,8 +36,8 @@ importers:
         specifier: ^0.1.4
         version: 0.1.4
       '@tn4consulting/shared-session-cache':
-        specifier: file:../mfe-pot-platform/libs/shared/session-cache
-        version: file:../mfe-pot-platform/libs/shared/session-cache
+        specifier: ^0.1.0
+        version: 0.1.0
       '@tn4consulting/shared-ui-scds-core':
         specifier: ^0.1.0
         version: 0.1.0
@@ -2807,8 +2807,8 @@ packages:
   '@tn4consulting/shared-runtime-config@0.1.4':
     resolution: {integrity: sha512-gFSqm28XISQowq1maFjWuRNScXAE57EjRG4+KrpgDuQ0HTR1jMjQI0qWXySrf2/vBnyeZpZ0ATgnNG0Pr4UPrw==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-runtime-config/0.1.4/df515d211b976c6d9fa401e83f34ff5cd07412e3}
 
-  '@tn4consulting/shared-session-cache@file:../mfe-pot-platform/libs/shared/session-cache':
-    resolution: {directory: ../mfe-pot-platform/libs/shared/session-cache, type: directory}
+  '@tn4consulting/shared-session-cache@0.1.0':
+    resolution: {integrity: sha512-qLypYn/rWxHZfXb5Aug7ZTv+bbnTgZJPt0fswtHlF+Jj2I55q8/LsBAdBJCuZx7PLcHzzORj+XXgIAuKERzbsA==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-session-cache/0.1.0/7b08f687121dc57fd1f8dbef289705cff9180fa7}
 
   '@tn4consulting/shared-ui-scds-core@0.1.0':
     resolution: {integrity: sha512-k9bM0RsWFIYCKhZhRMvngdbadI/qzubNktqx5rO++4CzoXet489dMvouIbWHLPl8LhTa7xPZXa/ZCQeHi9wzng==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-ui-scds-core/0.1.0/76bbc4bc9b0c244ea414790716e83292af8ddccf}
@@ -9973,7 +9973,7 @@ snapshots:
 
   '@tn4consulting/shared-runtime-config@0.1.4': {}
 
-  '@tn4consulting/shared-session-cache@file:../mfe-pot-platform/libs/shared/session-cache':
+  '@tn4consulting/shared-session-cache@0.1.0':
     dependencies:
       ioredis: 5.11.1
     transitivePeerDependencies:
