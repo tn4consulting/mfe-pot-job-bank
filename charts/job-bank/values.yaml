@@ -34,9 +34,14 @@ backend:
     pullPolicy: IfNotPresent
   containerPort: 3001
   servicePort: 3001
+  # session-cache is a separate Helm release in mfe-pot-platform (see its
+  # charts/session-cache), installed once independently of any per-app
+  # chart -- genuine cross-Helm-release in-cluster Service DNS, same
+  # pattern as dashboard-bff's JOB_BANK_BFF_URL/EMPLOYMENT_INSURANCE_BFF_URL.
   env:
     HOST: "0.0.0.0"
     PORT: "3001"
+    REDIS_URL: "redis://session-cache.default.svc.cluster.local:6379"
 
 ingress:
   host: job-bank.mfe-pot.local

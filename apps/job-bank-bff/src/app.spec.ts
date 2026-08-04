@@ -70,4 +70,17 @@ describe('job-bank-bff', () => {
     const res = await request(app).get('/api/applications');
     expect(res.status).toBe(400);
   });
+
+  it('clears applications for a sub after /api/reset', async () => {
+    await request(app)
+      .post('/api/applications')
+      .send({ jobId: 'job-001', applicantSub: 'mock-citizen-reset' });
+
+    const resetRes = await request(app).post('/api/reset');
+    expect(resetRes.status).toBe(204);
+
+    const res = await request(app).get('/api/applications').query({ applicantSub: 'mock-citizen-reset' });
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual([]);
+  });
 });

@@ -1,3 +1,6 @@
+import { randomUUID } from 'node:crypto';
+import { sessionCache } from './config';
+
 export interface JobPosting {
   id: string;
   title: string;
@@ -33,24 +36,29 @@ export const postings: JobPosting[] = [
   },
 ];
 
-const applications: JobApplication[] = [];
-
 export function getPosting(id: string): JobPosting | undefined {
   return postings.find((posting) => posting.id === id);
 }
 
-export function createApplication(jobId: string, applicantSub: string): JobApplication {
+export async function createApplication(jobId: string, applicantSub: string): Promise<JobApplication> {
+  const key = sessionCache.buildKey('applications', applicantSub);
+  const existing = (await sessionCache.getJson<JobApplication[]>(key)) ?? [];
   const application: JobApplication = {
-    id: `app-${applications.length + 1}`,
+    // Not `app-${existing.length + 1}` -- an id derived from array length
+    // breaks once state can outlive a single process (pod restart,
+    // multiple replicas), which is exactly what moving this into Redis
+    // makes possible.
+    id: randomUUID(),
     jobId,
     applicantSub,
     status: 'submitted',
     submittedAt: new Date().toISOString(),
   };
-  applications.push(application);
+  await sessionCache.setJson(key, [...existing, application]);
   return application;
 }
 
-export function getApplications(applicantSub: string): JobApplication[] {
-  return applications.filter((application) => application.applicantSub === applicantSub);
+export async function getApplications(applicantSub: string): Promise<JobApplication[]> {
+  const key = sessionCache.buildKey('applications', applicantSub);
+  return (await sessionCache.getJson<JobApplication[]>(key)) ?? [];
 }

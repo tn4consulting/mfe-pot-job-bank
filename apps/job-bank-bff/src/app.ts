@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express, { Express } from 'express';
+import { sessionCache } from './config';
 import { createApplication, getApplications, getPosting, postings } from './data';
 
 /**
@@ -21,7 +22,7 @@ export function createApp(): Express {
     res.json(postings);
   });
 
-  app.post('/api/applications', (req, res) => {
+  app.post('/api/applications', async (req, res) => {
     const { jobId, applicantSub } = req.body as { jobId?: string; applicantSub?: string };
     if (!jobId || !applicantSub) {
       res.status(400).json({ error: 'jobId and applicantSub are required' });
@@ -31,10 +32,10 @@ export function createApp(): Express {
       res.status(404).json({ error: `No job posting with id "${jobId}"` });
       return;
     }
-    res.status(201).json(createApplication(jobId, applicantSub));
+    res.status(201).json(await createApplication(jobId, applicantSub));
   });
 
-  app.get('/api/applications', (req, res) => {
+  app.get('/api/applications', async (req, res) => {
     const applicantSub = req.query['applicantSub'];
     if (typeof applicantSub !== 'string') {
       res.status(400).json({ error: 'applicantSub query parameter is required' });
@@ -45,7 +46,7 @@ export function createApp(): Express {
     // JobApplication itself -- callers (like dashboard-bff) shouldn't have
     // to make a second round trip to /api/jobs just to show a readable
     // summary.
-    const applications = getApplications(applicantSub).map((application) => {
+    const applications = (await getApplications(applicantSub)).map((application) => {
       const posting = getPosting(application.jobId);
       return {
         ...application,
@@ -54,6 +55,14 @@ export function createApp(): Express {
       };
     });
     res.json(applications);
+  });
+
+  // PoT-only, no auth -- unlocks a repeatable `pnpm demo:reset` (see
+  // mfe-pot/TODO.md) by clearing this BFF's own Redis-backed state between
+  // local/CI runs and live demos.
+  app.post('/api/reset', async (_req, res) => {
+    await sessionCache.reset();
+    res.status(204).send();
   });
 
   return app;
