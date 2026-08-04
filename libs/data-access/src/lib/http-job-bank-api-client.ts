@@ -1,3 +1,4 @@
+import { getAccessToken } from '@tn4consulting/shared-auth/core';
 import { JobBankApiClient } from './job-bank-api-client';
 import { JobApplication, JobPosting } from './models';
 
@@ -5,8 +6,19 @@ import { JobApplication, JobPosting } from './models';
 export class HttpJobBankApiClient implements JobBankApiClient {
   constructor(private readonly baseUrl: string) {}
 
+  /**
+   * Attaches the mock-idp-issued bearer token (if signed in) so
+   * job-bank-bff can independently verify it -- see mfe-pot's plan doc.
+   * Nothing here decodes the token itself; it's forwarded as an opaque
+   * credential.
+   */
+  private authHeaders(extra?: Record<string, string>): HeadersInit {
+    const token = getAccessToken();
+    return { ...extra, ...(token ? { Authorization: `Bearer ${token}` } : {}) };
+  }
+
   async getPostings(): Promise<JobPosting[]> {
-    const response = await fetch(`${this.baseUrl}/api/jobs`);
+    const response = await fetch(`${this.baseUrl}/api/jobs`, { headers: this.authHeaders() });
     if (!response.ok) {
       throw new Error(`job-bank-bff returned ${response.status} for /api/jobs`);
     }
@@ -16,7 +28,7 @@ export class HttpJobBankApiClient implements JobBankApiClient {
   async apply(jobId: string, applicantSub: string): Promise<JobApplication> {
     const response = await fetch(`${this.baseUrl}/api/applications`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: this.authHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ jobId, applicantSub }),
     });
     if (!response.ok) {
@@ -28,7 +40,7 @@ export class HttpJobBankApiClient implements JobBankApiClient {
   async getApplications(applicantSub: string): Promise<JobApplication[]> {
     const url = new URL(`${this.baseUrl}/api/applications`);
     url.searchParams.set('applicantSub', applicantSub);
-    const response = await fetch(url);
+    const response = await fetch(url, { headers: this.authHeaders() });
     if (!response.ok) {
       throw new Error(`job-bank-bff returned ${response.status} for /api/applications`);
     }

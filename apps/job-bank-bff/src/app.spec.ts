@@ -1,6 +1,29 @@
 import request from 'supertest';
 import { createApp } from './app';
 
+// The real JWKS-based JWT verification and the whoami response shape are
+// both covered by shared-auth-server's own tests -- this only proves
+// /api/whoami wires the middleware and handler together correctly.
+jest.mock('@tn4consulting/shared-auth-server', () => ({
+  verifyBearerToken:
+    () =>
+    (req: import('express').Request, res: import('express').Response, next: import('express').NextFunction) => {
+      if (req.headers.authorization === 'Bearer valid-token') {
+        req.auth = { sub: 'citizen-abc123', name: 'Alex Chen', sin: '123-456-789', claims: [] };
+        next();
+        return;
+      }
+      res.status(401).json({ error: 'Invalid or expired token' });
+    },
+  whoamiHandler: (req: import('express').Request, res: import('express').Response) => {
+    if (!req.auth) {
+      res.status(401).json({ error: 'Missing verified identity' });
+      return;
+    }
+    res.json({ sub: req.auth.sub, name: req.auth.name, sinMasked: 'MASKED' });
+  },
+}));
+
 describe('job-bank-bff', () => {
   const app = createApp();
 
@@ -69,6 +92,17 @@ describe('job-bank-bff', () => {
   it('requires the applicantSub query parameter', async () => {
     const res = await request(app).get('/api/applications');
     expect(res.status).toBe(400);
+  });
+
+  it('returns the verified identity for /api/whoami', async () => {
+    const res = await request(app).get('/api/whoami').set('Authorization', 'Bearer valid-token');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ sub: 'citizen-abc123', name: 'Alex Chen', sinMasked: 'MASKED' });
+  });
+
+  it('rejects /api/whoami without a valid bearer token', async () => {
+    const res = await request(app).get('/api/whoami');
+    expect(res.status).toBe(401);
   });
 
   it('clears applications for a sub after /api/reset', async () => {

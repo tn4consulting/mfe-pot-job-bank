@@ -1,3 +1,4 @@
+import { clearSession, storeSession } from '@tn4consulting/shared-auth/core';
 import { HttpJobBankApiClient } from './http-job-bank-api-client';
 
 describe('HttpJobBankApiClient', () => {
@@ -6,9 +7,10 @@ describe('HttpJobBankApiClient', () => {
 
   afterEach(() => {
     global.fetch = originalFetch;
+    clearSession();
   });
 
-  it('fetches postings', async () => {
+  it('fetches postings with no Authorization header when signed out', async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       json: async () => [{ id: 'job-001', title: 'Warehouse Associate' }],
@@ -16,7 +18,24 @@ describe('HttpJobBankApiClient', () => {
 
     const postings = await client.getPostings();
     expect(postings).toHaveLength(1);
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:3001/api/jobs');
+    expect(global.fetch).toHaveBeenCalledWith('http://localhost:3001/api/jobs', { headers: {} });
+  });
+
+  it('attaches the mock-idp access token as a Bearer header when signed in', async () => {
+    storeSession({
+      sub: 'citizen-abc123',
+      name: 'Alex Chen',
+      claims: [],
+      issuedAt: Date.now(),
+      expiresAt: Date.now() + 60_000,
+      accessToken: 'real-looking.jwt.value',
+    });
+    const fetchMock = jest.fn().mockResolvedValue({ ok: true, json: async () => [] });
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    await client.getPostings();
+
+    expect(fetchMock.mock.calls[0][1]).toEqual({ headers: { Authorization: 'Bearer real-looking.jwt.value' } });
   });
 
   it('throws when postings fail to load', async () => {

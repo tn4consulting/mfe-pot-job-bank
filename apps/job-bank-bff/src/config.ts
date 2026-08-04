@@ -9,3 +9,9 @@ import { InMemorySessionCache, RedisSessionCache, SessionCache } from '@tn4consu
 export const sessionCache: SessionCache = process.env['REDIS_URL']
   ? new RedisSessionCache({ url: process.env['REDIS_URL'], keyPrefix: 'job-bank' })
   : new InMemorySessionCache('job-bank');
+
+export const mockIdp = {
+  jwksUrl: process.env['MOCK_IDP_JWKS_URL'] ?? 'http://localhost:3005/.well-known/jwks.json',
+  issuer: process.env['MOCK_IDP_ISSUER'] ?? 'http://localhost:3005',
+  audience: 'mfe-pot-bffs',
+};
