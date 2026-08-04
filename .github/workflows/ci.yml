@@ -150,6 +150,6 @@ jobs:
             sleep 2
           done
           curl -sf -H "Host: job-bank.mfe-pot.local" http://localhost/ | grep -qi '<script src="env.js">'
-          curl -sf -H "Host: job-bank.mfe-pot.local" http://localhost/env.js | grep -q '"jobBankBffBaseUrl":"/api"'
+          curl -sf -H "Host: job-bank.mfe-pot.local" http://localhost/env.js | grep -q '"jobBankBffBaseUrl":""'
           status=$(curl -s -o /dev/null -w '%{http_code}' -H "Host: job-bank.mfe-pot.local" "http://localhost/api/jobs")
           [ "$status" = "200" ]
