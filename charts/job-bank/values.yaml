@@ -38,10 +38,17 @@ backend:
   # charts/session-cache), installed once independently of any per-app
   # chart -- genuine cross-Helm-release in-cluster Service DNS, same
   # pattern as dashboard-bff's JOB_BANK_BFF_URL/EMPLOYMENT_INSURANCE_BFF_URL.
+  # MOCK_IDP_JWKS_URL/MOCK_IDP_ISSUER point at mfe-pot-platform's
+  # charts/mock-idp release's own in-cluster Service DNS -- server-to-server
+  # JWT verification traffic, same pattern as REDIS_URL below. MOCK_IDP_ISSUER
+  # must match mock-idp's own chart value exactly (it's the `iss` claim
+  # mock-idp bakes into every token).
   env:
     HOST: "0.0.0.0"
     PORT: "3001"
     REDIS_URL: "redis://session-cache.default.svc.cluster.local:6379"
+    MOCK_IDP_JWKS_URL: "http://mock-idp.default.svc.cluster.local:3005/.well-known/jwks.json"
+    MOCK_IDP_ISSUER: "http://mock-idp.default.svc.cluster.local:3005"
 
 ingress:
   host: job-bank.mfe-pot.local
