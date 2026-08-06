@@ -28,8 +28,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0(express@5.2.1)
       '@tn4consulting/shared-content-client':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@tn4consulting/shared-federation-config':
         specifier: ^0.6.0
         version: 0.6.0(@softarc/native-federation@4.3.2(typescript@6.0.3))
@@ -2138,8 +2138,8 @@ packages:
       '@angular/core': '>=22.0.0'
       '@angular/router': '>=22.0.0'
 
-  '@tn4consulting/shared-content-client@0.2.0':
-    resolution: {integrity: sha512-MsrLbzofBgnXSwywkU5zEXKZ1sqn9djm4wQ3aKTKv41lwMOPipPhfULddPLcT56aSLdpa+J5o8TEAfaCSpo81A==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-content-client/0.2.0/ef9f988b9eb6e979dd53b4dee4809af55fbc1a1d}
+  '@tn4consulting/shared-content-client@0.3.0':
+    resolution: {integrity: sha512-FqetYnnYnC/VSBocxHS2p9q7xLBv8O/P6TqK/3mT39HRwqGzaK2GRVgmAPDIOXYjK1EcHixIzD/FEupQh6ZuiA==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-content-client/0.3.0/ce7fab8fb3b3c0337012c93ad09b8dea800ebe42}
 
   '@tn4consulting/shared-federation-config@0.6.0':
     resolution: {integrity: sha512-tMXXdozoHz2kqeMIHOXSb8jOqOew0l2FGLd9eGLQX4os8neb83Fof2YhRz8i6KyYc6wcjLV6ayi3CKMaUnCUHw==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-federation-config/0.6.0/fe73d2b86e070376faf5af203e6ff3e0e27d86cb}
@@ -8465,7 +8465,7 @@ snapshots:
       '@angular/core': 22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)
       '@angular/router': 22.1.0(@angular/common@22.1.0(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(@angular/platform-browser@22.1.0(@angular/common@22.1.0(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.0(@angular/compiler@22.1.0)(rxjs@7.8.2)))(rxjs@7.8.2)
 
-  '@tn4consulting/shared-content-client@0.2.0': {}
+  '@tn4consulting/shared-content-client@0.3.0': {}
 
   '@tn4consulting/shared-federation-config@0.6.0(@softarc/native-federation@4.3.2(typescript@6.0.3))':
     dependencies:

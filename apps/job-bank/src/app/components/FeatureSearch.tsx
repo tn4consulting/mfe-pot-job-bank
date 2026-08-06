@@ -15,19 +15,6 @@ type ScdsMultiColumnListElement = HTMLElement & {
   columns: ScdsListColumn[];
 };
 
-// Rendered until the CMS batch fetch resolves -- never blank, same bar
-// StaticContentClient already meets as the no-CMS fallback.
-const FALLBACK: Record<(typeof SEARCH_CONTENT_KEYS)[number], string> = {
-  'job-bank.search.heading': 'Job Bank — Job search',
-  'job-bank.search.error': 'Job postings are temporarily unavailable.',
-  'job-bank.search.table.title': 'Job title',
-  'job-bank.search.table.employer': 'Employer',
-  'job-bank.search.table.location': 'Location',
-  'job-bank.search.table.posted': 'Posted',
-  'job-bank.search.list.emptyLabel': 'No job postings found.',
-  'job-bank.search.list.label': 'Job postings',
-};
-
 export interface FeatureSearchProps {
   apiClient: JobBankApiClient;
   contentClient: ContentClient;
@@ -42,7 +29,7 @@ export function FeatureSearch({ apiClient, contentClient, locale }: FeatureSearc
   const content = usePageContents(contentClient, SEARCH_CONTENT_KEYS, locale);
 
   const label = useCallback(
-    (key: (typeof SEARCH_CONTENT_KEYS)[number]): string => content[key]?.title ?? FALLBACK[key],
+    (key: (typeof SEARCH_CONTENT_KEYS)[number]): string => content[key]?.title ?? key,
     [content],
   );
 

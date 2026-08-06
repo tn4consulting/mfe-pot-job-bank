@@ -10,16 +10,6 @@ import type { Locale } from '@tn4consulting/shared-i18n';
 import { APPLY_CONTENT_KEYS } from '../content-client';
 import { usePageContents } from '../use-page-contents';
 
-// Rendered until the CMS batch fetch resolves -- never blank, same bar
-// StaticContentClient already meets as the no-CMS fallback.
-const FALLBACK: Record<(typeof APPLY_CONTENT_KEYS)[number], string> = {
-  'job-bank.apply.heading': 'Apply for a job',
-  'job-bank.apply.error': 'Job applications are temporarily unavailable.',
-  'job-bank.apply.label': 'Choose a posting',
-  'job-bank.apply.button': 'Apply now',
-  'job-bank.apply.confirmation': 'Application {id} submitted — status: {status}.',
-};
-
 export interface FeatureApplyProps {
   apiClient: JobBankApiClient;
   contentClient: ContentClient;
@@ -35,7 +25,7 @@ export function FeatureApply({ apiClient, contentClient, locale }: FeatureApplyP
   const content = usePageContents(contentClient, APPLY_CONTENT_KEYS, locale);
 
   function label(key: (typeof APPLY_CONTENT_KEYS)[number]): string {
-    return content[key]?.title ?? FALLBACK[key];
+    return content[key]?.title ?? key;
   }
 
   useEffect(() => {

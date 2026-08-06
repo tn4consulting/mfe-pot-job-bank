@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { clearSession, createMockSession, storeSession } from '@tn4consulting/shared-auth/core';
 import { HttpJobBankApiClient } from 'job-bank-data-access';
 import { JobApplicationsList } from './JobApplicationsList';
@@ -14,6 +14,19 @@ jest.mock('job-bank-data-access', () => ({
 }));
 
 const MockedHttpJobBankApiClient = HttpJobBankApiClient as unknown as jest.Mock;
+
+// No strapiBaseUrl configured above, so content comes from the real
+// StaticContentClient's fetched fallback (content-client.ts).
+const FALLBACK_EN = {
+  'job-bank.applications-list.heading': { title: 'My Job Applications', body: '' },
+  'job-bank.applications-list.empty': { title: 'No job applications on file.', body: '' },
+  'job-bank.applications-list.unavailable': { title: 'Job applications are temporarily unavailable.', body: '' },
+  'job-bank.applications-list.unknownPosition': { title: 'Unknown position', body: '' },
+  'job-bank.applications-list.unknownEmployer': { title: 'Unknown employer', body: '' },
+  'job-bank.applications-list.table.position': { title: 'Position', body: '' },
+  'job-bank.applications-list.table.employer': { title: 'Employer', body: '' },
+  'job-bank.applications-list.table.status': { title: 'Status', body: '' },
+};
 
 // scds-multi-column-list renders into its own shadow root, which
 // @testing-library/dom's default queries don't pierce -- assert on
@@ -40,6 +53,9 @@ describe('JobApplicationsList', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     storeSession(createMockSession());
+    global.fetch = jest.fn().mockResolvedValue({
+      json: () => Promise.resolve(FALLBACK_EN),
+    }) as unknown as typeof fetch;
   });
 
   afterEach(() => {
@@ -87,6 +103,9 @@ describe('JobApplicationsList', () => {
 
     render(<JobApplicationsList />);
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('temporarily unavailable');
+    // Content resolves asynchronously (even the fallback path is a Promise,
+    // per StaticContentClient), so the alert can appear before its final
+    // text does -- wait for the text itself, not just the element.
+    await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('temporarily unavailable'));
   });
 });

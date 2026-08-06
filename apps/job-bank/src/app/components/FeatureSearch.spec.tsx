@@ -1,11 +1,20 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import type { JobBankApiClient } from 'job-bank-data-access';
 import type { ContentClient } from '@tn4consulting/shared-content-client';
 import { FeatureSearch } from './FeatureSearch';
 
 const contentClient: ContentClient = {
   getPageContent: jest.fn().mockResolvedValue(null),
-  getPageContents: jest.fn().mockResolvedValue({}),
+  getPageContents: jest.fn().mockResolvedValue({
+    'job-bank.search.heading': { title: 'Job Bank — Job search', body: '' },
+    'job-bank.search.error': { title: 'Job postings are temporarily unavailable.', body: '' },
+    'job-bank.search.table.title': { title: 'Job title', body: '' },
+    'job-bank.search.table.employer': { title: 'Employer', body: '' },
+    'job-bank.search.table.location': { title: 'Location', body: '' },
+    'job-bank.search.table.posted': { title: 'Posted', body: '' },
+    'job-bank.search.list.emptyLabel': { title: 'No job postings found.', body: '' },
+    'job-bank.search.list.label': { title: 'Job postings', body: '' },
+  }),
 };
 
 // scds-multi-column-list renders into its own shadow root, which
@@ -57,7 +66,8 @@ describe('FeatureSearch', () => {
 
     render(<FeatureSearch apiClient={apiClient} contentClient={contentClient} locale="en" />);
 
-    const alert = await screen.findByRole('alert');
-    expect(alert.textContent).toContain('temporarily unavailable');
+    // Content resolves asynchronously (even a mocked Promise), so the alert
+    // can appear before its final text does -- wait for the text itself.
+    await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('temporarily unavailable'));
   });
 });

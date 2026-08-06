@@ -7,7 +7,13 @@ import { FeatureApply } from './FeatureApply';
 
 const contentClient: ContentClient = {
   getPageContent: jest.fn().mockResolvedValue(null),
-  getPageContents: jest.fn().mockResolvedValue({}),
+  getPageContents: jest.fn().mockResolvedValue({
+    'job-bank.apply.heading': { title: 'Apply for a job', body: '' },
+    'job-bank.apply.error': { title: 'Job applications are temporarily unavailable.', body: '' },
+    'job-bank.apply.label': { title: 'Choose a posting', body: '' },
+    'job-bank.apply.button': { title: 'Apply now', body: '' },
+    'job-bank.apply.confirmation': { title: 'Application {id} submitted — status: {status}.', body: '' },
+  }),
 };
 
 describe('FeatureApply', () => {

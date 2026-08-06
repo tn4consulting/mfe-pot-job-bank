@@ -45,7 +45,21 @@ jest.mock('job-bank-data-access', () => ({
 describe('App', () => {
   beforeEach(() => {
     getPageContentMock.mockReset().mockResolvedValue(null);
-    getPageContentsMock.mockReset().mockResolvedValue({});
+    getPageContentsMock.mockReset().mockResolvedValue({
+      'job-bank.search.heading': { title: 'Job Bank — Job search', body: '' },
+      'job-bank.search.error': { title: 'Job postings are temporarily unavailable.', body: '' },
+      'job-bank.search.table.title': { title: 'Job title', body: '' },
+      'job-bank.search.table.employer': { title: 'Employer', body: '' },
+      'job-bank.search.table.location': { title: 'Location', body: '' },
+      'job-bank.search.table.posted': { title: 'Posted', body: '' },
+      'job-bank.search.list.emptyLabel': { title: 'No job postings found.', body: '' },
+      'job-bank.search.list.label': { title: 'Job postings', body: '' },
+      'job-bank.apply.heading': { title: 'Apply for a job', body: '' },
+      'job-bank.apply.error': { title: 'Job applications are temporarily unavailable.', body: '' },
+      'job-bank.apply.label': { title: 'Choose a posting', body: '' },
+      'job-bank.apply.button': { title: 'Apply now', body: '' },
+      'job-bank.apply.confirmation': { title: 'Application {id} submitted — status: {status}.', body: '' },
+    });
     global.fetch = jest.fn().mockResolvedValue({
       json: () =>
         Promise.resolve({ auth: { signInRequired: 'You need to sign in to search and apply for jobs.' } }),

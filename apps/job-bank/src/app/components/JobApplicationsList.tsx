@@ -19,19 +19,6 @@ type ScdsMultiColumnListElement = HTMLElement & {
   columns: ScdsListColumn[];
 };
 
-// Rendered until the CMS batch fetch resolves -- never blank, same bar
-// StaticContentClient already meets as the no-CMS fallback.
-const FALLBACK: Record<(typeof APPLICATIONS_LIST_CONTENT_KEYS)[number], string> = {
-  'job-bank.applications-list.heading': 'My Job Applications',
-  'job-bank.applications-list.empty': 'No job applications on file.',
-  'job-bank.applications-list.unavailable': 'Job applications are temporarily unavailable.',
-  'job-bank.applications-list.unknownPosition': 'Unknown position',
-  'job-bank.applications-list.unknownEmployer': 'Unknown employer',
-  'job-bank.applications-list.table.position': 'Position',
-  'job-bank.applications-list.table.employer': 'Employer',
-  'job-bank.applications-list.table.status': 'Status',
-};
-
 /**
  * Exposed as a federated widget (see federation.config.mjs's
  * './JobApplicationsWidget') for dashboard to embed via the
@@ -50,7 +37,7 @@ export function JobApplicationsList() {
   const listElRef = useRef<ScdsMultiColumnListElement | null>(null);
 
   const label = useCallback(
-    (key: (typeof APPLICATIONS_LIST_CONTENT_KEYS)[number]): string => content[key]?.title ?? FALLBACK[key],
+    (key: (typeof APPLICATIONS_LIST_CONTENT_KEYS)[number]): string => content[key]?.title ?? key,
     [content],
   );
 
@@ -58,7 +45,7 @@ export function JobApplicationsList() {
     let cancelled = false;
     loadRuntimeConfig(assetBaseUrl).then((runtimeConfig) => {
       if (!cancelled) {
-        setContentClient(createContentClient(runtimeConfig.strapiBaseUrl));
+        setContentClient(createContentClient(runtimeConfig.strapiBaseUrl, assetBaseUrl));
       }
     });
     return () => {

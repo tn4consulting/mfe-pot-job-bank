@@ -61,7 +61,7 @@ export function App() {
       }
       setConfig({
         apiClient: new HttpJobBankApiClient(runtimeConfig.jobBankBffBaseUrl),
-        contentClient: createContentClient(runtimeConfig.strapiBaseUrl),
+        contentClient: createContentClient(runtimeConfig.strapiBaseUrl, assetBaseUrl),
       });
     });
     return () => {
