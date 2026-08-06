@@ -94,12 +94,27 @@ await cp('apps/job-bank/src/index.html', join(outputPath, 'index.html'));
 // own prebuilt browser bundle.
 await cp(require.resolve('es-module-shims'), join(outputPath, 'es-module-shims.js'));
 
+// `dev: true` here even in a production build -- deliberately NOT `dev`
+// (the CLI-flag-derived value used below for the standalone bundle).
+// This step's own minification is broken: confirmed the hard way
+// (mfe-pot-shell, same underlying tooling, and reproduced against this
+// app's own production build too) that a MINIFIED shared react.js chunk
+// crashes at runtime ("TypeError: ... is not a function", every named
+// React import resolving to `undefined`) while the default export stays
+// correctly populated -- esbuild's minifier tree-shakes away the CJS
+// module body `@chialab/esbuild-plugin-commonjs`'s named-export
+// extraction depends on. `node-modules-bundler.js` hardcodes
+// `minify: !dev` with no independent minify-only control, so the
+// resulting `-dev.js`-suffixed filename on these specific vendor chunks
+// (react.js, react-dom.js) is a cosmetic side effect of reusing the `dev`
+// flag for this, not a sign anything else is running in dev mode -- this
+// app's own standalone bundle below is still fully minified.
 const result = await runEsBuildBuilder('apps/job-bank/federation.config.mjs', {
   workspaceRoot: process.cwd(),
   outputPath,
   tsConfig: 'apps/job-bank/tsconfig.federation.json',
   packageJson: 'package.json',
-  dev,
+  dev: true,
   watch: false,
   adapterConfig: {
     plugins: [],
