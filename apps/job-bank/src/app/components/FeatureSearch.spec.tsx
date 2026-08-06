@@ -1,6 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import type { JobBankApiClient } from 'job-bank-data-access';
+import type { ContentClient } from '@tn4consulting/shared-content-client';
 import { FeatureSearch } from './FeatureSearch';
+
+const contentClient: ContentClient = {
+  getPageContent: jest.fn().mockResolvedValue(null),
+  getPageContents: jest.fn().mockResolvedValue({}),
+};
 
 // scds-multi-column-list renders into its own shadow root, which
 // @testing-library/dom's default queries don't pierce -- assert on
@@ -35,7 +41,7 @@ describe('FeatureSearch', () => {
       ]),
     });
 
-    const { container } = render(<FeatureSearch apiClient={apiClient} />);
+    const { container } = render(<FeatureSearch apiClient={apiClient} contentClient={contentClient} locale="en" />);
     await waitForRender();
     await waitForRender();
 
@@ -49,7 +55,7 @@ describe('FeatureSearch', () => {
       getPostings: jest.fn().mockRejectedValue(new Error('network down')),
     });
 
-    render(<FeatureSearch apiClient={apiClient} />);
+    render(<FeatureSearch apiClient={apiClient} contentClient={contentClient} locale="en" />);
 
     const alert = await screen.findByRole('alert');
     expect(alert.textContent).toContain('temporarily unavailable');

@@ -20,8 +20,7 @@ import { HttpJobBankApiClient } from 'job-bank-data-access';
 import { createContentClient, INTRO_CONTENT_KEY } from './content-client';
 import { loadRuntimeConfig } from '../runtime-config';
 import { assetBaseUrl } from './asset-base-url';
-import { useLocale } from './use-locale';
-import { useTranslations } from './use-translations';
+import { useLocale, useTranslations } from '@tn4consulting/shared-i18n';
 import { FeatureSearch } from './components/FeatureSearch';
 import { FeatureApply } from './components/FeatureApply';
 // Registers the SCDS custom elements FeatureSearch renders -- explicit
@@ -115,8 +114,8 @@ export function App() {
       ) : introLoadError ? (
         <p role="alert">Page content is temporarily unavailable.</p>
       ) : null}
-      <FeatureSearch apiClient={config.apiClient} />
-      <FeatureApply apiClient={config.apiClient} />
+      <FeatureSearch apiClient={config.apiClient} contentClient={config.contentClient} locale={locale} />
+      <FeatureApply apiClient={config.apiClient} contentClient={config.contentClient} locale={locale} />
     </>
   );
 }

@@ -6,15 +6,30 @@ import { getStoredSession } from '@tn4consulting/shared-auth/core';
 import type { JobApplication } from 'job-bank-data-access';
 import { HttpJobBankApiClient } from 'job-bank-data-access';
 import type { ScdsListColumn } from '@tn4consulting/shared-ui-scds-core';
+import type { ContentClient } from '@tn4consulting/shared-content-client';
 import { loadRuntimeConfig } from '../../runtime-config';
 import { assetBaseUrl } from '../asset-base-url';
-import { useLocale } from '../use-locale';
-import { useTranslations } from '../use-translations';
+import { useLocale } from '@tn4consulting/shared-i18n';
+import { APPLICATIONS_LIST_CONTENT_KEYS, createContentClient } from '../content-client';
+import { usePageContents } from '../use-page-contents';
 import '../../register-scds';
 
 type ScdsMultiColumnListElement = HTMLElement & {
   items: unknown[];
   columns: ScdsListColumn[];
+};
+
+// Rendered until the CMS batch fetch resolves -- never blank, same bar
+// StaticContentClient already meets as the no-CMS fallback.
+const FALLBACK: Record<(typeof APPLICATIONS_LIST_CONTENT_KEYS)[number], string> = {
+  'job-bank.applications-list.heading': 'My Job Applications',
+  'job-bank.applications-list.empty': 'No job applications on file.',
+  'job-bank.applications-list.unavailable': 'Job applications are temporarily unavailable.',
+  'job-bank.applications-list.unknownPosition': 'Unknown position',
+  'job-bank.applications-list.unknownEmployer': 'Unknown employer',
+  'job-bank.applications-list.table.position': 'Position',
+  'job-bank.applications-list.table.employer': 'Employer',
+  'job-bank.applications-list.table.status': 'Status',
 };
 
 /**
@@ -29,9 +44,27 @@ type ScdsMultiColumnListElement = HTMLElement & {
 export function JobApplicationsList() {
   const [applications, setApplications] = useState<JobApplication[] | null>(null);
   const [loadError, setLoadError] = useState(false);
+  const [contentClient, setContentClient] = useState<ContentClient | null>(null);
   const locale = useLocale();
-  const { t } = useTranslations(assetBaseUrl, locale);
+  const content = usePageContents(contentClient, APPLICATIONS_LIST_CONTENT_KEYS, locale);
   const listElRef = useRef<ScdsMultiColumnListElement | null>(null);
+
+  const label = useCallback(
+    (key: (typeof APPLICATIONS_LIST_CONTENT_KEYS)[number]): string => content[key]?.title ?? FALLBACK[key],
+    [content],
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    loadRuntimeConfig(assetBaseUrl).then((runtimeConfig) => {
+      if (!cancelled) {
+        setContentClient(createContentClient(runtimeConfig.strapiBaseUrl));
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const session = getStoredSession();
@@ -77,40 +110,46 @@ export function JobApplicationsList() {
 
   // scds-multi-column-list's `items`/`columns` are DOM properties (they're
   // non-primitive), not HTML attributes -- set imperatively, not via JSX.
-  // Re-set on every `t`/locale change too, not just when `applications`
-  // loads: the column `cell` closures capture `t` for the null-fallback
-  // text, which would otherwise go stale after a language switch.
+  // Re-set on every content/locale change too, not just when `applications`
+  // loads: the column `cell` closures capture the label lookup for the
+  // null-fallback text, which would otherwise go stale after a language
+  // switch.
   useEffect(() => {
     const list = listElRef.current;
     if (!list) {
       return;
     }
-    list.setAttribute('empty-label', t('jobApplications.empty'));
-    list.setAttribute('list-label', t('jobApplications.heading'));
+    list.setAttribute('empty-label', label('job-bank.applications-list.empty'));
+    list.setAttribute('list-label', label('job-bank.applications-list.heading'));
     list.columns = [
       {
         id: 'title',
-        header: 'Position',
-        cell: (item) => (item as JobApplication).jobTitle ?? t('jobApplications.unknownPosition'),
+        header: label('job-bank.applications-list.table.position'),
+        cell: (item) => (item as JobApplication).jobTitle ?? label('job-bank.applications-list.unknownPosition'),
         priority: 'primary',
       },
       {
         id: 'employer',
-        header: 'Employer',
-        cell: (item) => (item as JobApplication).employer ?? t('jobApplications.unknownEmployer'),
+        header: label('job-bank.applications-list.table.employer'),
+        cell: (item) => (item as JobApplication).employer ?? label('job-bank.applications-list.unknownEmployer'),
       },
-      { id: 'status', header: 'Status', cell: (item) => (item as JobApplication).status, priority: 'secondary' },
+      {
+        id: 'status',
+        header: label('job-bank.applications-list.table.status'),
+        cell: (item) => (item as JobApplication).status,
+        priority: 'secondary',
+      },
     ];
     if (applications !== null) {
       list.items = applications;
     }
-  }, [applications, t]);
+  }, [applications, label]);
 
   return (
     <section className="job-applications-list">
-      <h2>{t('jobApplications.heading')}</h2>
+      <h2>{label('job-bank.applications-list.heading')}</h2>
       {loadError ? (
-        <p role="alert">{t('jobApplications.unavailable')}</p>
+        <p role="alert">{label('job-bank.applications-list.unavailable')}</p>
       ) : applications === null ? null : (
         <div ref={setContainerRef} />
       )}

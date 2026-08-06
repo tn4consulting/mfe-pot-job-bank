@@ -1,8 +1,14 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { JobBankApiClient } from 'job-bank-data-access';
+import type { ContentClient } from '@tn4consulting/shared-content-client';
 import { clearSession, createMockSession, storeSession } from '@tn4consulting/shared-auth/core';
 import { FeatureApply } from './FeatureApply';
+
+const contentClient: ContentClient = {
+  getPageContent: jest.fn().mockResolvedValue(null),
+  getPageContents: jest.fn().mockResolvedValue({}),
+};
 
 describe('FeatureApply', () => {
   function makeApiClient(overrides: Partial<JobBankApiClient> = {}): jest.Mocked<JobBankApiClient> {
@@ -27,7 +33,7 @@ describe('FeatureApply', () => {
 
   it('selects the first posting by default once loaded', async () => {
     const apiClient = makeApiClient();
-    render(<FeatureApply apiClient={apiClient} />);
+    render(<FeatureApply apiClient={apiClient} contentClient={contentClient} locale="en" />);
 
     const select = (await screen.findByLabelText('Choose a posting')) as HTMLSelectElement;
     await waitFor(() => expect(select.value).toBe('job-001'));
@@ -45,7 +51,7 @@ describe('FeatureApply', () => {
         employer: 'Northgate Logistics',
       }),
     });
-    render(<FeatureApply apiClient={apiClient} />);
+    render(<FeatureApply apiClient={apiClient} contentClient={contentClient} locale="en" />);
 
     const button = await screen.findByRole('button', { name: 'Apply now' });
     await userEvent.click(button);

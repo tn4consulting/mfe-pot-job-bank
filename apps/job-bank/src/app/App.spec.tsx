@@ -11,9 +11,27 @@ jest.mock('../runtime-config', () => ({
 }));
 
 const getPageContentMock = jest.fn();
+const getPageContentsMock = jest.fn();
 jest.mock('./content-client', () => ({
   INTRO_CONTENT_KEY: 'job-bank.intro',
-  createContentClient: () => ({ getPageContent: getPageContentMock }),
+  SEARCH_CONTENT_KEYS: [
+    'job-bank.search.heading',
+    'job-bank.search.error',
+    'job-bank.search.table.title',
+    'job-bank.search.table.employer',
+    'job-bank.search.table.location',
+    'job-bank.search.table.posted',
+    'job-bank.search.list.emptyLabel',
+    'job-bank.search.list.label',
+  ],
+  APPLY_CONTENT_KEYS: [
+    'job-bank.apply.heading',
+    'job-bank.apply.error',
+    'job-bank.apply.label',
+    'job-bank.apply.button',
+    'job-bank.apply.confirmation',
+  ],
+  createContentClient: () => ({ getPageContent: getPageContentMock, getPageContents: getPageContentsMock }),
 }));
 
 jest.mock('job-bank-data-access', () => ({
@@ -27,6 +45,7 @@ jest.mock('job-bank-data-access', () => ({
 describe('App', () => {
   beforeEach(() => {
     getPageContentMock.mockReset().mockResolvedValue(null);
+    getPageContentsMock.mockReset().mockResolvedValue({});
     global.fetch = jest.fn().mockResolvedValue({
       json: () =>
         Promise.resolve({ auth: { signInRequired: 'You need to sign in to search and apply for jobs.' } }),

@@ -15,16 +15,6 @@ jest.mock('job-bank-data-access', () => ({
 
 const MockedHttpJobBankApiClient = HttpJobBankApiClient as unknown as jest.Mock;
 
-const EN_TRANSLATIONS = {
-  jobApplications: {
-    heading: 'My Job Applications',
-    empty: 'No job applications on file.',
-    unavailable: 'Job applications are temporarily unavailable.',
-    unknownPosition: 'Unknown position',
-    unknownEmployer: 'Unknown employer',
-  },
-};
-
 // scds-multi-column-list renders into its own shadow root, which
 // @testing-library/dom's default queries don't pierce -- assert on
 // shadowRoot.textContent directly instead. The custom element is created
@@ -50,9 +40,6 @@ describe('JobApplicationsList', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     storeSession(createMockSession());
-    global.fetch = jest.fn().mockResolvedValue({
-      json: () => Promise.resolve(EN_TRANSLATIONS),
-    }) as jest.Mock;
   });
 
   afterEach(() => {

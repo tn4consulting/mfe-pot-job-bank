@@ -1,12 +1,5 @@
 {
   "auth": {
     "signInRequired": "You need to sign in to search and apply for jobs."
-  },
-  "jobApplications": {
-    "heading": "My Job Applications",
-    "empty": "No job applications on file.",
-    "unavailable": "Job applications are temporarily unavailable.",
-    "unknownPosition": "Unknown position",
-    "unknownEmployer": "Unknown employer"
   }
 }
