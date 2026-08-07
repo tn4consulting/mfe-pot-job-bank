@@ -31,6 +31,16 @@ jest.mock('./content-client', () => ({
     'job-bank.apply.button',
     'job-bank.apply.confirmation',
   ],
+  APPLICATIONS_LIST_CONTENT_KEYS: [
+    'job-bank.applications-list.heading',
+    'job-bank.applications-list.empty',
+    'job-bank.applications-list.unavailable',
+    'job-bank.applications-list.unknownPosition',
+    'job-bank.applications-list.unknownEmployer',
+    'job-bank.applications-list.table.position',
+    'job-bank.applications-list.table.employer',
+    'job-bank.applications-list.table.status',
+  ],
   createContentClient: () => ({ getPageContent: getPageContentMock, getPageContents: getPageContentsMock }),
 }));
 
@@ -38,7 +48,7 @@ jest.mock('job-bank-data-access', () => ({
   HttpJobBankApiClient: jest.fn().mockImplementation(() => ({
     getPostings: jest.fn().mockResolvedValue([]),
     apply: jest.fn(),
-    getApplications: jest.fn(),
+    getApplications: jest.fn().mockResolvedValue([]),
   })),
 }));
 
@@ -59,6 +69,9 @@ describe('App', () => {
       'job-bank.apply.label': { title: 'Choose a posting', body: '' },
       'job-bank.apply.button': { title: 'Apply now', body: '' },
       'job-bank.apply.confirmation': { title: 'Application {id} submitted — status: {status}.', body: '' },
+      'job-bank.applications-list.heading': { title: 'My Job Applications', body: '' },
+      'job-bank.applications-list.empty': { title: 'You have not applied to any jobs yet.', body: '' },
+      'job-bank.applications-list.unavailable': { title: 'Job applications are temporarily unavailable.', body: '' },
     });
     global.fetch = jest.fn().mockResolvedValue({
       json: () =>

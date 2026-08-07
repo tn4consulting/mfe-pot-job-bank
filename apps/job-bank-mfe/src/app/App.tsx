@@ -23,6 +23,7 @@ import { assetBaseUrl } from './asset-base-url';
 import { useLocale, useTranslations } from '@tn4consulting/shared-i18n';
 import { FeatureSearch } from './components/FeatureSearch';
 import { FeatureApply } from './components/FeatureApply';
+import { JobApplicationsList } from './components/JobApplicationsList';
 // Registers the SCDS custom elements FeatureSearch renders -- explicit
 // here too (not just via FeatureSearch's own import) since this file is
 // federation.config.mjs's actual `./Component` expose target.
@@ -116,6 +117,7 @@ export function App() {
       ) : null}
       <FeatureSearch apiClient={config.apiClient} contentClient={config.contentClient} locale={locale} />
       <FeatureApply apiClient={config.apiClient} contentClient={config.contentClient} locale={locale} />
+      <JobApplicationsList />
     </>
   );
 }

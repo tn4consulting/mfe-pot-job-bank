@@ -20,13 +20,17 @@ type ScdsMultiColumnListElement = HTMLElement & {
 };
 
 /**
- * Exposed as a federated widget (see federation.config.mjs's
- * './JobApplicationsWidget') for dashboard to embed via the
- * shell-mediated JOB_APPLICATIONS_WIDGET_LOADER token, rather than
- * dashboard-bff proxying this data on job-bank's behalf. Does its own
- * setup entirely, with no props -- same reasoning as `App`, see its own
- * comment: a React widget mounted via `REACT_MOUNTER` has no
- * host-provided `REMOTE_PROVIDERS` equivalent to receive props from.
+ * Rendered directly by this app's own App.tsx, and also still exposed as a
+ * federated widget (see federation.config.mjs's './JobApplicationsWidget')
+ * for a shell-mediated consumer to embed via the
+ * JOB_APPLICATIONS_WIDGET_LOADER token -- dashboard used to embed it this
+ * way, but dropped the embed since docs/msca-screenshots/dashboard.png has
+ * no job-applications tile on the dashboard page; this app's own page is
+ * now the one place a citizen actually sees it. Does its own setup
+ * entirely, with no props -- same reasoning as `App`, see its own comment:
+ * a React widget mounted via `REACT_MOUNTER` has no host-provided
+ * `REMOTE_PROVIDERS` equivalent to receive props from -- which is also why
+ * rendering it here needed no props threaded in either.
  */
 export function JobApplicationsList() {
   const [applications, setApplications] = useState<JobApplication[] | null>(null);
