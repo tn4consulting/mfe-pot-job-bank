@@ -1,8 +1,8 @@
 frontend:
-  name: job-bank
+  name: job-bank-mfe
   replicaCount: 1
   image:
-    repository: mfe-pot-job-bank
+    repository: mfe-pot-job-bank-mfe
     tag: latest
     pullPolicy: IfNotPresent
   containerPort: 80

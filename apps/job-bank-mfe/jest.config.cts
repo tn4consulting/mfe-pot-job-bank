@@ -1,9 +1,9 @@
 module.exports = {
-  displayName: 'job-bank',
+  displayName: 'job-bank-mfe',
   preset: '../../jest.preset.js',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/job-bank',
+  coverageDirectory: '../../coverage/apps/job-bank-mfe',
   transform: {
     '^.+\\.(ts|tsx)$': [
       'ts-jest',

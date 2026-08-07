@@ -1,8 +1,8 @@
 {
-  "name": "job-bank",
+  "name": "job-bank-mfe",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/job-bank/src",
+  "sourceRoot": "apps/job-bank-mfe/src",
   "tags": [
     "type:app",
     "scope:job-bank"
@@ -11,19 +11,19 @@
     "build": {
       "executor": "nx:run-commands",
       "defaultConfiguration": "production",
-      "outputs": ["{workspaceRoot}/dist/apps/job-bank"],
+      "outputs": ["{workspaceRoot}/dist/apps/job-bank-mfe"],
       "cache": true,
       "inputs": ["production", "^production"],
       "options": {
-        "command": "node apps/job-bank/build/build.mjs",
+        "command": "node apps/job-bank-mfe/build/build.mjs",
         "cwd": "{workspaceRoot}"
       },
       "configurations": {
         "production": {
-          "command": "node apps/job-bank/build/build.mjs"
+          "command": "node apps/job-bank-mfe/build/build.mjs"
         },
         "development": {
-          "command": "node apps/job-bank/build/build.mjs --dev"
+          "command": "node apps/job-bank-mfe/build/build.mjs --dev"
         }
       }
     },
@@ -31,7 +31,7 @@
       "executor": "nx:run-commands",
       "continuous": true,
       "options": {
-        "command": "node apps/job-bank/build/serve.mjs",
+        "command": "node apps/job-bank-mfe/build/serve.mjs",
         "cwd": "{workspaceRoot}"
       }
     },
@@ -44,16 +44,16 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "apps/job-bank/jest.config.cts",
-        "tsConfig": "apps/job-bank/tsconfig.spec.json"
+        "jestConfig": "apps/job-bank-mfe/jest.config.cts",
+        "tsConfig": "apps/job-bank-mfe/tsconfig.spec.json"
       }
     },
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "job-bank:build",
-        "staticFilePath": "dist/apps/job-bank/browser",
+        "buildTarget": "job-bank-mfe:build",
+        "staticFilePath": "dist/apps/job-bank-mfe/browser",
         "spa": true,
         "port": 4203
       }

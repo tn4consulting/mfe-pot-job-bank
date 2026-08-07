@@ -61,9 +61,9 @@ jobs:
       - name: Checkout this repo
         uses: actions/checkout@v4
         with:
-          path: mfe-pot-job-bank
+          path: mfe-pot-job-bank-mfe
 
-      # charts/job-bank/Chart.yaml's library-chart dependencies resolve
+      # charts/job-bank-mfe/Chart.yaml's library-chart dependencies resolve
       # via a sibling-checkout-relative file:// path (see CLAUDE.md) --
       # checked out alongside this repo so the same relative layout local
       # dev uses (both under one parent directory) holds here too. Public
@@ -76,12 +76,12 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
-      - name: Build job-bank image
+      - name: Build job-bank-mfe image
         uses: docker/build-push-action@v6
         with:
-          context: mfe-pot-job-bank
-          file: mfe-pot-job-bank/apps/job-bank/Dockerfile
-          tags: mfe-pot-job-bank:kind
+          context: mfe-pot-job-bank-mfe
+          file: mfe-pot-job-bank-mfe/apps/job-bank-mfe/Dockerfile
+          tags: mfe-pot-job-bank-mfe:kind
           load: true
           secrets: |
             npm_token=${{ secrets.GITHUB_TOKEN }}
@@ -89,8 +89,8 @@ jobs:
       - name: Build job-bank-bff image
         uses: docker/build-push-action@v6
         with:
-          context: mfe-pot-job-bank
-          file: mfe-pot-job-bank/apps/job-bank-bff/Dockerfile
+          context: mfe-pot-job-bank-mfe
+          file: mfe-pot-job-bank-mfe/apps/job-bank-bff/Dockerfile
           tags: mfe-pot-job-bank-bff:kind
           load: true
           secrets: |
@@ -119,19 +119,19 @@ jobs:
 
       - name: Load images into kind
         run: |
-          kind load docker-image mfe-pot-job-bank:kind
+          kind load docker-image mfe-pot-job-bank-mfe:kind
           kind load docker-image mfe-pot-job-bank-bff:kind
 
       - uses: azure/setup-helm@v4
 
       - name: helm dependency update
-        run: helm dependency update mfe-pot-job-bank/charts/job-bank
+        run: helm dependency update mfe-pot-job-bank-mfe/charts/job-bank-mfe
 
-      - name: helm install job-bank
+      - name: helm install job-bank-mfe
         run: |
-          helm install job-bank mfe-pot-job-bank/charts/job-bank \
-            -f mfe-pot-job-bank/charts/job-bank/values.yaml \
-            -f mfe-pot-job-bank/charts/job-bank/values-kind.yaml \
+          helm install job-bank-mfe mfe-pot-job-bank-mfe/charts/job-bank-mfe \
+            -f mfe-pot-job-bank-mfe/charts/job-bank-mfe/values.yaml \
+            -f mfe-pot-job-bank-mfe/charts/job-bank-mfe/values-kind.yaml \
             --wait --timeout 120s
 
       # Same checks proven manually (see CLAUDE.md/the platform repo's

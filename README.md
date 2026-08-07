@@ -1,4 +1,4 @@
-# mfe-pot-job-bank
+# mfe-pot-job-bank-mfe
 
 > **Disclaimer:** This is an independent proof-of-technology project, not
 > affiliated with, endorsed by, or associated with Service Canada,
@@ -7,12 +7,12 @@
 > are used only to ground the proof of technology in a realistic scenario.
 
 The **job search and apply** frontend for the mfe-pot Government of Canada
-MFE proof-of-technology. Federated as a remote into `mfe-pot-shell`, but also
-built to work standalone outside this shell — the reason its business logic
-lives in `libs/feature-*` rather than the app itself.
+MFE proof-of-technology. Federated as a remote into `mfe-pot-msca-shell` and
+`mfe-pot-job-bank-shell` (both host apps), but also built to work standalone
+outside either shell.
 
 This README covers running **this app (+ its BFF) standalone**. For the full
-family (all 6 repos together) and architecture rationale, see
+family (all 7 repos together) and architecture rationale, see
 [`../mfe-pot-platform/README.md`](../mfe-pot-platform/README.md) and
 [`CLAUDE.md`](./CLAUDE.md) in this repo.
 
@@ -34,22 +34,22 @@ family (all 6 repos together) and architecture rationale, see
 export NODE_AUTH_TOKEN=<your GitHub token>
 pnpm install
 pnpm exec nx serve job-bank-bff   # terminal 1 — port 3001
-pnpm exec nx serve job-bank       # terminal 2 — port 4203
+pnpm exec nx serve job-bank-mfe   # terminal 2 — port 4203
 ```
 
-Open `http://localhost:4203`. Job Bank has no dependency on the shell or any
-sibling remote to run — this is deliberate (see `CLAUDE.md`'s "This repo's
-own architecture doc" pointer and the platform repo's "Independent
+Open `http://localhost:4203`. Job Bank has no dependency on either shell or
+any sibling remote to run — this is deliberate (see `CLAUDE.md`'s "This
+repo's own architecture doc" pointer and the platform repo's "Independent
 testability" section).
 
 ## Test, lint, build
 
 ```bash
-pnpm exec nx test job-bank
+pnpm exec nx test job-bank-mfe
 pnpm exec nx test job-bank-bff
-pnpm exec nx lint job-bank
+pnpm exec nx lint job-bank-mfe
 pnpm exec nx run job-bank-bff:eslint:lint   # BFF's lint target isn't named "lint"
-pnpm exec nx build job-bank --configuration=production
+pnpm exec nx build job-bank-mfe --configuration=production
 pnpm exec nx build job-bank-bff
 ```
 
@@ -60,11 +60,11 @@ Or across this repo's projects at once: `pnpm run test` / `pnpm run lint` /
 
 ```bash
 docker build --secret id=npm_token,src=<(printf '%s' "$NODE_AUTH_TOKEN") \
-  -t mfe-pot-job-bank:local -f apps/job-bank/Dockerfile .
+  -t mfe-pot-job-bank-mfe:local -f apps/job-bank-mfe/Dockerfile .
 docker build --secret id=npm_token,src=<(printf '%s' "$NODE_AUTH_TOKEN") \
   -t mfe-pot-job-bank-bff:local -f apps/job-bank-bff/Dockerfile .
 
-docker run -p 8080:80 mfe-pot-job-bank:local
+docker run -p 8080:80 mfe-pot-job-bank-mfe:local
 docker run -p 3001:3001 -e HOST=0.0.0.0 mfe-pot-job-bank-bff:local
 ```
 
@@ -76,8 +76,8 @@ pnpm deploy:local
 
 Runs `tools/deploy-local.sh` — builds both images, creates/reuses a local
 `kind` cluster (shared with the other app repos, named `kind`), and
-`helm upgrade --install`s `charts/job-bank` (one Helm release for both the
-frontend and `job-bank-bff`). This was the first app extracted, so this
+`helm upgrade --install`s `charts/job-bank-mfe` (one Helm release for both
+the frontend and `job-bank-bff`). This was the first app extracted, so this
 script is the template every other app repo's own `deploy-local.sh` follows.
 Requires `../mfe-pot-platform` checked out as a sibling (this chart's
 library-chart dependencies resolve via
@@ -98,4 +98,4 @@ there directly.
 - [`../mfe-pot-platform/CLAUDE.md`](../mfe-pot-platform/CLAUDE.md) — the
   full architecture reference for the whole family.
 - [`../mfe-pot-platform/README.md`](../mfe-pot-platform/README.md) —
-  running all 6 repos together.
+  running all 7 repos together.

@@ -1,9 +1,9 @@
 apiVersion: v2
-name: job-bank
+name: job-bank-mfe
 description: >-
-  Deploys the job-bank frontend + job-bank-bff pair as one Helm release,
+  Deploys the job-bank-mfe frontend + job-bank-bff pair as one Helm release,
   independent of every other mfe-pot app -- `helm upgrade --install
-  job-bank ./charts/job-bank` touches only these two. Extracted into this
+  job-bank-mfe ./charts/job-bank-mfe` touches only these two. Extracted into this
   repo per Phase 1 of
   docs/plans/20260801-1935-mfe-pot-polyrepo-split-and-k8s-hosting.md; its
   library-chart dependencies still resolve from the platform repo's sibling

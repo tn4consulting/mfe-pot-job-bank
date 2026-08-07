@@ -17,11 +17,11 @@
 # package.json), which includes @tn4consulting/shared-* even though this
 # BFF's own source doesn't import them -- same GitHub Packages auth need,
 # same file-mounted-secret and pnpm-store-cache-mount reasoning, as
-# apps/job-bank/Dockerfile's top comment.
+# apps/job-bank-mfe/Dockerfile's top comment.
 FROM node:22-alpine AS build
 WORKDIR /workspace
 # CI=true kept for consistency, and the pnpm.onlyBuiltDependencies fix
-# (nx removed from that list) applied -- see apps/job-bank/Dockerfile's
+# (nx removed from that list) applied -- see apps/job-bank-mfe/Dockerfile's
 # top comment for the fuller story on why.
 ENV CI=true
 RUN corepack enable && corepack prepare pnpm@10.33.2 --activate

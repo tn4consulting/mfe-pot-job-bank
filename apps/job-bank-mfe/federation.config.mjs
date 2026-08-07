@@ -37,11 +37,11 @@ const sharedUiScdsCoreLoader = share({
 });
 
 export default withNativeFederation({
-  name: 'job-bank',
+  name: 'job-bank-mfe',
 
   exposes: {
-    './Component': './apps/job-bank/src/app/App.tsx',
-    './JobApplicationsWidget': './apps/job-bank/src/app/components/JobApplicationsList.tsx',
+    './Component': './apps/job-bank-mfe/src/app/App.tsx',
+    './JobApplicationsWidget': './apps/job-bank-mfe/src/app/components/JobApplicationsList.tsx',
   },
 
   shared: {

@@ -69,12 +69,12 @@ const require = createRequire(import.meta.url);
 // keeps that flag without reintroducing the broken paths.
 
 const dev = process.argv.includes('--dev');
-const outputPath = 'dist/apps/job-bank/browser';
+const outputPath = 'dist/apps/job-bank-mfe/browser';
 
 // Unlike the Angular executor this replaces, nothing here incrementally
 // diffs stale output against a fresh build -- a leftover file from a
 // previous (possibly Angular) build would otherwise sit alongside the new
-// one indefinitely, and since `dist/apps/job-bank/browser` is also nginx's
+// one indefinitely, and since `dist/apps/job-bank-mfe/browser` is also nginx's
 // serve root (see the Dockerfile), a stale bundle chunk being reachable is
 // a real correctness risk, not just clutter.
 await rm(outputPath, { recursive: true, force: true });
@@ -84,8 +84,8 @@ await mkdir(outputPath, { recursive: true });
 // public/** (i18n JSON, favicon, env.js placeholder) and index.html by
 // hand. Must happen before the federation build so remoteEntry.json/
 // importmap.json (written into the same outputPath) aren't clobbered.
-await cp('apps/job-bank/public', outputPath, { recursive: true });
-await cp('apps/job-bank/src/index.html', join(outputPath, 'index.html'));
+await cp('apps/job-bank-mfe/public', outputPath, { recursive: true });
+await cp('apps/job-bank-mfe/src/index.html', join(outputPath, 'index.html'));
 
 // es-module-shims must be loaded via a plain classic <script> tag (see
 // index.html) -- it has to already be active before the `type="module-shim"`
@@ -109,10 +109,10 @@ await cp(require.resolve('es-module-shims'), join(outputPath, 'es-module-shims.j
 // (react.js, react-dom.js) is a cosmetic side effect of reusing the `dev`
 // flag for this, not a sign anything else is running in dev mode -- this
 // app's own standalone bundle below is still fully minified.
-const result = await runEsBuildBuilder('apps/job-bank/federation.config.mjs', {
+const result = await runEsBuildBuilder('apps/job-bank-mfe/federation.config.mjs', {
   workspaceRoot: process.cwd(),
   outputPath,
-  tsConfig: 'apps/job-bank/tsconfig.federation.json',
+  tsConfig: 'apps/job-bank-mfe/tsconfig.federation.json',
   packageJson: 'package.json',
   dev: true,
   watch: false,
@@ -130,7 +130,7 @@ const result = await runEsBuildBuilder('apps/job-bank/federation.config.mjs', {
 await result.close();
 
 await esbuild.build({
-  entryPoints: ['apps/job-bank/src/main.tsx'],
+  entryPoints: ['apps/job-bank-mfe/src/main.tsx'],
   outfile: join(outputPath, 'main.js'),
   bundle: true,
   format: 'esm',
@@ -144,4 +144,4 @@ await esbuild.build({
   },
 });
 
-console.log(`job-bank built to ${outputPath} (${dev ? 'development' : 'production'})`);
+console.log(`job-bank-mfe built to ${outputPath} (${dev ? 'development' : 'production'})`);

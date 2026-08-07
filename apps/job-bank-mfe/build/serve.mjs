@@ -16,19 +16,19 @@ import { createRequire } from 'node:module';
 import { extname, join } from 'node:path';
 
 const require = createRequire(import.meta.url);
-const outputPath = 'dist/apps/job-bank/browser';
-const port = Number(process.env.JOB_BANK_DEV_PORT ?? 4203);
+const outputPath = 'dist/apps/job-bank-mfe/browser';
+const port = Number(process.env.JOB_BANK_MFE_DEV_PORT ?? 4203);
 
 await rm(outputPath, { recursive: true, force: true });
 await mkdir(outputPath, { recursive: true });
-await cp('apps/job-bank/public', outputPath, { recursive: true });
-await cp('apps/job-bank/src/index.html', join(outputPath, 'index.html'));
+await cp('apps/job-bank-mfe/public', outputPath, { recursive: true });
+await cp('apps/job-bank-mfe/src/index.html', join(outputPath, 'index.html'));
 await cp(require.resolve('es-module-shims'), join(outputPath, 'es-module-shims.js'));
 
-await runEsBuildBuilder('apps/job-bank/federation.config.mjs', {
+await runEsBuildBuilder('apps/job-bank-mfe/federation.config.mjs', {
   workspaceRoot: process.cwd(),
   outputPath,
-  tsConfig: 'apps/job-bank/tsconfig.federation.json',
+  tsConfig: 'apps/job-bank-mfe/tsconfig.federation.json',
   packageJson: 'package.json',
   dev: true,
   watch: true,
@@ -43,7 +43,7 @@ await runEsBuildBuilder('apps/job-bank/federation.config.mjs', {
 });
 
 const mainCtx = await esbuild.context({
-  entryPoints: ['apps/job-bank/src/main.tsx'],
+  entryPoints: ['apps/job-bank-mfe/src/main.tsx'],
   outfile: join(outputPath, 'main.js'),
   bundle: true,
   format: 'esm',
@@ -83,5 +83,5 @@ createServer(async (req, res) => {
     res.end('Not found');
   }
 }).listen(port, () => {
-  console.log(`job-bank dev server listening on http://localhost:${port}`);
+  console.log(`job-bank-mfe dev server listening on http://localhost:${port}`);
 });

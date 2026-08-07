@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds job-bank's + job-bank-bff's images, spins up (or reuses) a local
+# Builds job-bank-mfe's + job-bank-bff's images, spins up (or reuses) a local
 # kind cluster with ingress-nginx, and helm-upgrades this app's chart onto
 # it -- the local equivalent of the kind-validation stage in
 # .github/workflows/ci.yml.
@@ -42,11 +42,11 @@ fi
 
 export DOCKER_BUILDKIT=1
 
-echo "==> Building job-bank image..."
+echo "==> Building job-bank-mfe image..."
 docker build \
   --secret id=npm_token,src="$token_file" \
-  -t mfe-pot-job-bank:kind \
-  -f apps/job-bank/Dockerfile .
+  -t mfe-pot-job-bank-mfe:kind \
+  -f apps/job-bank-mfe/Dockerfile .
 
 echo "==> Building job-bank-bff image..."
 docker build \
@@ -55,16 +55,16 @@ docker build \
   -f apps/job-bank-bff/Dockerfile .
 
 echo "==> Loading images into kind..."
-kind load docker-image mfe-pot-job-bank:kind --name "$CLUSTER_NAME"
+kind load docker-image mfe-pot-job-bank-mfe:kind --name "$CLUSTER_NAME"
 kind load docker-image mfe-pot-job-bank-bff:kind --name "$CLUSTER_NAME"
 
 echo "==> Updating Helm chart dependencies..."
-helm dependency update charts/job-bank
+helm dependency update charts/job-bank-mfe
 
-echo "==> Deploying job-bank..."
-helm upgrade --install job-bank charts/job-bank \
-  -f charts/job-bank/values.yaml \
-  -f charts/job-bank/values-kind.yaml \
+echo "==> Deploying job-bank-mfe..."
+helm upgrade --install job-bank-mfe charts/job-bank-mfe \
+  -f charts/job-bank-mfe/values.yaml \
+  -f charts/job-bank-mfe/values-kind.yaml \
   --wait --timeout 120s
 
 # values-kind.yaml pins static image tags with pullPolicy: Never, so
@@ -74,8 +74,8 @@ helm upgrade --install job-bank charts/job-bank \
 # content indefinitely (confirmed the hard way: a redeploy silently kept
 # serving a pre-fix build). Force both deployments explicitly every run.
 echo "==> Restarting deployments to pick up the freshly built images..."
-kubectl rollout restart deployment/job-bank deployment/job-bank-bff
-kubectl rollout status deployment/job-bank --timeout=60s
+kubectl rollout restart deployment/job-bank-mfe deployment/job-bank-bff
+kubectl rollout status deployment/job-bank-mfe --timeout=60s
 kubectl rollout status deployment/job-bank-bff --timeout=60s
 
 echo "==> Waiting for ingress..."
@@ -86,9 +86,9 @@ for i in $(seq 1 30); do
   sleep 2
 done
 if [ "$status" != "200" ]; then
-  echo "warning: job-bank isn't answering with 200 yet (last status: $status). Check with:" >&2
+  echo "warning: job-bank-mfe isn't answering with 200 yet (last status: $status). Check with:" >&2
   echo "  kubectl get pods,ingress" >&2
   exit 1
 fi
 
-echo "==> job-bank is up: curl -H \"Host: $HOSTNAME\" http://localhost/"
+echo "==> job-bank-mfe is up: curl -H \"Host: $HOSTNAME\" http://localhost/"

@@ -17,7 +17,7 @@
 import './styles.css';
 import { initFederation } from '@softarc/native-federation-orchestrator';
 
-initFederation({ 'job-bank': './remoteEntry.json' })
+initFederation({ 'job-bank-mfe': './remoteEntry.json' })
   .catch((err) => console.error(err))
   .then(() => import('./bootstrap'))
   .catch((err) => console.error(err));
