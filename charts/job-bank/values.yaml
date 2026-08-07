@@ -51,5 +51,5 @@ backend:
     MOCK_IDP_ISSUER: "http://mock-idp.default.svc.cluster.local:3005"
 
 ingress:
-  host: job-bank.mfe-pot.local
+  host: job-bank-mfe.mfe-pot.local
   className: nginx

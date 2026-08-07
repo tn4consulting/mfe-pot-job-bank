@@ -85,10 +85,10 @@ library-chart dependencies resolve via
 `/etc/hosts`:
 
 ```
-127.0.0.1 job-bank.mfe-pot.local
+127.0.0.1 job-bank-mfe.mfe-pot.local
 ```
 
-Then `curl -H "Host: job-bank.mfe-pot.local" http://localhost/` or browse
+Then `curl -H "Host: job-bank-mfe.mfe-pot.local" http://localhost/` or browse
 there directly.
 
 ## Where to go next

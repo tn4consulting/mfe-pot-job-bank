@@ -15,5 +15,5 @@ backend:
     pullPolicy: Never
 
 ingress:
-  host: job-bank.mfe-pot.local
+  host: job-bank-mfe.mfe-pot.local
   className: nginx

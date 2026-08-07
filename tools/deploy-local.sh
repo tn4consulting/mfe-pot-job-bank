@@ -9,7 +9,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 CLUSTER_NAME="${CLUSTER_NAME:-kind}"
 PLATFORM_DIR=../mfe-pot-platform
-HOSTNAME=job-bank.mfe-pot.local
+HOSTNAME=job-bank-mfe.mfe-pot.local
 
 if [ ! -d "$PLATFORM_DIR" ]; then
   echo "error: expected mfe-pot-platform checked out as a sibling at $PLATFORM_DIR (see ../mfe-pot.code-workspace)" >&2
