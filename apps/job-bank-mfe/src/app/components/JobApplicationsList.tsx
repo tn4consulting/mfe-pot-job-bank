@@ -19,6 +19,22 @@ type ScdsMultiColumnListElement = HTMLElement & {
   columns: ScdsListColumn[];
 };
 
+export interface JobApplicationsListProps {
+  /**
+   * Fires once, after this component's own fetch resolves, with whatever
+   * it fetched -- lets a consumer (in-app or federated) observe the real
+   * applications data without re-implementing the fetch itself. Optional
+   * and additive: every existing call site (this app's own `App.tsx`, and
+   * any federated consumer that predates this prop) still works with zero
+   * props. Added for `mfe-pot-employment-life-events-mfe`'s guided-journey
+   * checklist, which needs to know whether the citizen has already
+   * applied to a job in order to mark that checklist item complete --
+   * deliberately generic (just "here's what loaded"), not anything
+   * loss-of-job-specific; that framing lives entirely in the consumer.
+   */
+  onApplicationsLoaded?: (applications: JobApplication[]) => void;
+}
+
 /**
  * Rendered directly by this app's own App.tsx, and also still exposed as a
  * federated widget (see federation.config.mjs's './JobApplicationsWidget')
@@ -27,18 +43,28 @@ type ScdsMultiColumnListElement = HTMLElement & {
  * way, but dropped the embed since docs/msca-screenshots/dashboard.png has
  * no job-applications tile on the dashboard page; this app's own page is
  * now the one place a citizen actually sees it. Does its own setup
- * entirely, with no props -- same reasoning as `App`, see its own comment:
- * a React widget mounted via `REACT_MOUNTER` has no host-provided
- * `REMOTE_PROVIDERS` equivalent to receive props from -- which is also why
- * rendering it here needed no props threaded in either.
+ * entirely -- same reasoning as `App`, see its own comment: a React widget
+ * mounted via `REACT_MOUNTER` has no host-provided `REMOTE_PROVIDERS`
+ * equivalent to receive props from -- `onApplicationsLoaded` is the one
+ * exception, a plain optional callback prop a federated consumer can pass
+ * through the widget-loader's `ComponentType<Record<string, unknown>>`
+ * signature (see shared-federation-runtime's `WidgetLoader` type).
  */
-export function JobApplicationsList() {
+export function JobApplicationsList({ onApplicationsLoaded }: JobApplicationsListProps = {}) {
   const [applications, setApplications] = useState<JobApplication[] | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [contentClient, setContentClient] = useState<ContentClient | null>(null);
   const locale = useLocale();
   const content = usePageContents(contentClient, APPLICATIONS_LIST_CONTENT_KEYS, locale);
   const listElRef = useRef<ScdsMultiColumnListElement | null>(null);
+  // A ref, not a fetch-effect dependency: onApplicationsLoaded is commonly
+  // passed as a fresh inline arrow function on every render (as
+  // employment-life-events-mfe's checklist does), and this component only
+  // fetches once per mount -- depending on the callback's identity would
+  // either re-fetch on every consumer re-render or (if the lint rule were
+  // suppressed) silently call a stale closure.
+  const onApplicationsLoadedRef = useRef(onApplicationsLoaded);
+  onApplicationsLoadedRef.current = onApplicationsLoaded;
 
   const label = useCallback(
     (key: (typeof APPLICATIONS_LIST_CONTENT_KEYS)[number]): string => content[key]?.title ?? key,
@@ -70,6 +96,7 @@ export function JobApplicationsList() {
       .then((result) => {
         if (!cancelled) {
           setApplications(result);
+          onApplicationsLoadedRef.current?.(result);
         }
       })
       .catch((err) => {

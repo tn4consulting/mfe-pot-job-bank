@@ -101,6 +101,28 @@ describe('JobApplicationsList', () => {
     expect(shadowRoot.textContent).toContain('submitted');
   });
 
+  it('calls onApplicationsLoaded once the fetch resolves', async () => {
+    const applications = [
+      {
+        id: 'app-1',
+        jobId: 'job-001',
+        applicantSub: 'mock-citizen-001',
+        status: 'submitted',
+        submittedAt: '2026-08-01T00:00:00.000Z',
+        jobTitle: 'Warehouse Associate',
+        employer: 'Northgate Logistics',
+      },
+    ];
+    MockedHttpJobBankApiClient.mockImplementation(() => ({
+      getApplications: jest.fn().mockResolvedValue(applications),
+    }));
+    const onApplicationsLoaded = jest.fn();
+
+    render(<JobApplicationsList onApplicationsLoaded={onApplicationsLoaded} />);
+
+    await waitFor(() => expect(onApplicationsLoaded).toHaveBeenCalledWith(applications));
+  });
+
   it('shows an error state when the upstream call fails', async () => {
     MockedHttpJobBankApiClient.mockImplementation(() => ({
       getApplications: jest.fn().mockRejectedValue(new Error('connection refused')),

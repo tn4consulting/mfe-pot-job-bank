@@ -40,8 +40,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0
       '@tn4consulting/shared-ui-scds-core':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.1.0
+        version: 1.1.0
       cors:
         specifier: ^2.8.6
         version: 2.8.6
@@ -2147,8 +2147,8 @@ packages:
   '@tn4consulting/shared-session-cache@0.1.0':
     resolution: {integrity: sha512-qLypYn/rWxHZfXb5Aug7ZTv+bbnTgZJPt0fswtHlF+Jj2I55q8/LsBAdBJCuZx7PLcHzzORj+XXgIAuKERzbsA==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-session-cache/0.1.0/7b08f687121dc57fd1f8dbef289705cff9180fa7}
 
-  '@tn4consulting/shared-ui-scds-core@1.0.0':
-    resolution: {integrity: sha512-ZgSH/g9P602QQqaToIc03skp0vQ1SAIHx4ST/xPtoekM5TLdaf/XwoABJmpGRzM48IHE21ddlPzCm9wC9UiVXg==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-ui-scds-core/1.0.0/8fa4561ca6ef3fe2ced1200e9f4d230a6b1b2492}
+  '@tn4consulting/shared-ui-scds-core@1.1.0':
+    resolution: {integrity: sha512-owVHS0OKfqgSHiKgTtm1VQTlnjxJ3sZviYMZmSmvifC3WbCZ6EX0EwaD2tkT1cmUQzFBN3Da0rNP35kTEWxRog==, tarball: https://npm.pkg.github.com/download/@tn4consulting/shared-ui-scds-core/1.1.0/32330443f1e89a5a0cd16c5118846069c6baf29c}
 
   '@tsconfig/node10@1.0.12':
     resolution: {integrity: sha512-UCYBaeFvM11aU2y3YPZ//O5Rhj+xKyzy7mvcIoAjASbigy8mHMryP5cK7dgjlz2hWxh1g5pLw084E0a/wlUSFQ==}
@@ -8467,7 +8467,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@tn4consulting/shared-ui-scds-core@1.0.0': {}
+  '@tn4consulting/shared-ui-scds-core@1.1.0': {}
 
   '@tsconfig/node10@1.0.12': {}
 
