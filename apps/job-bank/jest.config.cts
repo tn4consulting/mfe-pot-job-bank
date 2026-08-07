@@ -18,9 +18,9 @@ module.exports = {
   // node_modules exclusion can't parse them without this -- previously hit
   // and fixed the same way across every app repo (see mfe-pot-platform's
   // CLAUDE.md, "Monorepo -> per-app repos"). Kept even though this app no
-  // longer imports @angular-architects/@softarc/@gcds-core/@jsverse
-  // directly, since job-bank-data-access and other libs still might.
+  // longer imports @softarc/@jsverse directly, since job-bank-data-access
+  // and other libs still might.
   transformIgnorePatterns: [
-    'node_modules/(?!\\.pnpm|(@angular-architects|@softarc|@gcds-core|@jsverse|@tn4consulting)/|.*\\.mjs$)',
+    'node_modules/(?!\\.pnpm|(@softarc|@jsverse|@tn4consulting)/|.*\\.mjs$)',
   ],
 };

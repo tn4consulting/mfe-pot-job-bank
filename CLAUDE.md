@@ -27,4 +27,4 @@ Depends on published packages from GitHub Packages: `@tn4consulting/shared-auth`
 
 ## Renovate
 
-`renovate.json` extends `github>tn4consulting/mfe-pot-platform` — the shared preset (groups `react`, `react-dom`, and `@gcds-core/components` into one coordinated pinned bump, the federation-shared singletons). Don't hand-roll React/GCDS version bumps here independently of the other 5 repos; `platform-versions.json` in `mfe-pot-platform` is the source of truth for what version they should all be on.
+`renovate.json` extends `github>tn4consulting/mfe-pot-platform` — the shared preset (groups `react`, `react-dom`, and `@tn4consulting/shared-ui-scds-core` into one coordinated pinned bump, the federation-shared singletons). Don't hand-roll React/SCDS version bumps here independently of the other 5 repos; `platform-versions.json` in `mfe-pot-platform` is the source of truth for what version they should all be on.

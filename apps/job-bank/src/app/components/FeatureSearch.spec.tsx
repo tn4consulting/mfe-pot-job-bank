@@ -23,8 +23,14 @@ const contentClient: ContentClient = {
 // and populated imperatively inside a useEffect (see FeatureSearch.tsx),
 // so a render-flush tick is needed after `render()` too, same as this
 // component's own Stencil-side tests (see shared-ui-scds-core).
+//
+// 100ms, not 20ms: once shared-ui-scds-core grew from 2 components to 18
+// (the GCDS removal/SCDS rewrite), real Stencil registration/hydration of
+// the full lazy-loaded component set takes measurably longer in this test
+// environment -- 20ms started flaking/failing deterministically (captured
+// the element's pre-hydration empty state) once that grew.
 function waitForRender(): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, 20));
+  return new Promise((resolve) => setTimeout(resolve, 100));
 }
 
 describe('FeatureSearch', () => {
