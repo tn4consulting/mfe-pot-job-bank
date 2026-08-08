@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Lets mfe-pot/tools/deploy-eks.sh re-trigger this repo's deploy-eks job
+  # on demand (e.g. right after a fresh cluster comes up) without needing
+  # a new commit -- Stage 2 otherwise only fires on a push to main.
+  workflow_dispatch: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -153,3 +157,111 @@ jobs:
           curl -sf -H "Host: job-bank-mfe.mfe-pot.local" http://localhost/env.js | grep -q '"jobBankBffBaseUrl":""'
           status=$(curl -s -o /dev/null -w '%{http_code}' -H "Host: job-bank-mfe.mfe-pot.local" "http://localhost/api/jobs")
           [ "$status" = "200" ]
+
+  # Stage 2: build+push real images to ECR and deploy to the real AWS EKS
+  # cluster, on push to main only. See
+  # mfe-pot/docs/plans/20260808-1500-mfe-pot-aws-eks-terraform.md for the
+  # full design. The demo cluster is intentionally torn down between demos
+  # (cost-conscious PoC, see that doc's "Cost posture" decision) -- most
+  # pushes to main happen while it doesn't exist, so every step past the
+  # liveness check is individually gated on `steps.check.outputs.cluster_up`
+  # rather than skipping the whole job, which would make an unconditional
+  # deploy step fail loudly and routinely.
+  deploy-eks:
+    needs: [lint-test-build, kind-validation]
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+          path: mfe-pot-job-bank-mfe
+
+      - name: Checkout mfe-pot-platform (sibling - Helm library charts)
+        uses: actions/checkout@v4
+        with:
+          repository: tn4consulting/mfe-pot-platform
+          path: mfe-pot-platform
+
+      - name: Configure AWS credentials (GitHub OIDC, no long-lived keys)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_GITHUB_ACTIONS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Check whether the demo cluster currently exists
+        id: check
+        continue-on-error: true
+        run: |
+          if aws eks describe-cluster --name "${{ vars.EKS_CLUSTER_NAME }}" >/dev/null 2>&1; then
+            echo "cluster_up=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "cluster_up=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Login to ECR
+        if: steps.check.outputs.cluster_up == 'true'
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push job-bank-mfe image
+        if: steps.check.outputs.cluster_up == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: mfe-pot-job-bank-mfe
+          file: mfe-pot-job-bank-mfe/apps/job-bank-mfe/Dockerfile
+          push: true
+          tags: ${{ steps.ecr-login.outputs.registry }}/mfe-pot-job-bank-mfe:${{ github.sha }}
+          secrets: |
+            npm_token=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push job-bank-bff image
+        if: steps.check.outputs.cluster_up == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: mfe-pot-job-bank-mfe
+          file: mfe-pot-job-bank-mfe/apps/job-bank-bff/Dockerfile
+          push: true
+          tags: ${{ steps.ecr-login.outputs.registry }}/mfe-pot-job-bank-bff:${{ github.sha }}
+          secrets: |
+            npm_token=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update kubeconfig
+        if: steps.check.outputs.cluster_up == 'true'
+        run: aws eks update-kubeconfig --name "${{ vars.EKS_CLUSTER_NAME }}" --region "${{ vars.AWS_REGION }}"
+
+      - uses: azure/setup-helm@v4
+        if: steps.check.outputs.cluster_up == 'true'
+
+      - name: helm dependency update
+        if: steps.check.outputs.cluster_up == 'true'
+        run: helm dependency update mfe-pot-job-bank-mfe/charts/job-bank-mfe
+
+      - name: helm upgrade --install against EKS
+        if: steps.check.outputs.cluster_up == 'true'
+        run: |
+          helm upgrade --install job-bank-mfe mfe-pot-job-bank-mfe/charts/job-bank-mfe \
+            -f mfe-pot-job-bank-mfe/charts/job-bank-mfe/values.yaml \
+            -f mfe-pot-job-bank-mfe/charts/job-bank-mfe/values-eks.yaml \
+            --set frontend.image.tag=${{ github.sha }} \
+            --set backend.image.tag=${{ github.sha }} \
+            --wait --timeout 180s
+
+      # Longer window than kind-validation's: a brand-new Ingress needs
+      # external-dns to notice and propagate the DNS record, plus
+      # cert-manager's first DNS-01 ACME issuance -- both near-instant on a
+      # redeploy where the record/cert already exist, but not on the very
+      # first deploy.
+      - name: Verify the deployed app is actually reachable over HTTPS
+        if: steps.check.outputs.cluster_up == 'true'
+        run: |
+          set -eu
+          for i in $(seq 1 60); do
+            status=$(curl -s -o /dev/null -w '%{http_code}' https://job-bank-mfe.aws.tn4consulting.com/ || echo 000)
+            [ "$status" = "200" ] && break
+            sleep 5
+          done
+          curl -sf https://job-bank-mfe.aws.tn4consulting.com/ | grep -qi '<script src="env.js">'

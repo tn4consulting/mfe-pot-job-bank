@@ -1,0 +1,38 @@
+# Overrides layered on top of values.yaml for a real AWS EKS deployment (see
+# mfe-pot/docs/plans/20260808-1500-mfe-pot-aws-eks-terraform.md). Mirrors the
+# same role values-kind.yaml plays for local kind -- only the environment
+# differs, the values contract is identical.
+#
+# image.repository below assumes the AWS account/region used when
+# mfe-pot-platform/infra/terraform/foundation was applied -- if you're
+# pointing this at a different account, update both URIs (and the
+# corresponding entries in every other app repo's own values-eks.yaml) to
+# match that account's real ECR URIs (foundation's `ecr_repository_urls`
+# output has the authoritative values).
+#
+# image.tag is deliberately left as the values.yaml default ("latest") here
+# -- the deploy-eks CI job always overrides it via
+# `--set frontend.image.tag=$GITHUB_SHA --set backend.image.tag=$GITHUB_SHA`,
+# since the whole point of this pass is deploying one immutable,
+# git-SHA-traceable image, never a value baked into a committed file.
+
+frontend:
+  image:
+    repository: 147318891438.dkr.ecr.ca-central-1.amazonaws.com/mfe-pot-job-bank-mfe
+    pullPolicy: IfNotPresent
+  runtimeConfig:
+    strapiBaseUrl: "https://cms.aws.tn4consulting.com"
+
+backend:
+  image:
+    repository: 147318891438.dkr.ecr.ca-central-1.amazonaws.com/mfe-pot-job-bank-bff
+    pullPolicy: IfNotPresent
+  # REDIS_URL/MOCK_IDP_JWKS_URL/MOCK_IDP_ISSUER deliberately NOT overridden
+  # here -- they're real in-cluster Service DNS names, identical on EKS and
+  # kind (see values.yaml).
+
+ingress:
+  host: job-bank-mfe.aws.tn4consulting.com
+  tls:
+    enabled: true
+    clusterIssuer: letsencrypt-staging
